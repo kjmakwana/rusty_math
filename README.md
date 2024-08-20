@@ -11,6 +11,7 @@ This is a Rust library for mathematical operations.
 - Find all primes numbers less than a number
 - Permutation
 - Combination
+Many more to come!!
 
 ## Installation
 
