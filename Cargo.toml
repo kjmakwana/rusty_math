@@ -5,6 +5,6 @@ edition = "2021"
 author = "Kshitij Makwana"
 description = "rusty_math is a collection of mathematical functions implemented in Rust"
 repository = "https://github.com/kjmakwana/rusty_math"
-license-file = "LICENSE.txt"
+license-file = "LICENSE"
 
 [dependencies]
