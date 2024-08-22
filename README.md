@@ -11,7 +11,10 @@ This is a Rust library for mathematical operations.
 - Find all primes numbers less than a number
 - Permutation
 - Combination
-Many more to come!!
+- Integration
+- Differentiation
+- Solve a linear equation
+- Linear Regression
 
 ## Installation
 
@@ -19,7 +22,7 @@ To use `rusty_math` in your project, add the following to your `Cargo.toml` file
 
 ```toml
 [dependencies]
-rusty_math = "0.1.0"
+rusty_math = "0.1.2"
 ```
 
 ## Usage
