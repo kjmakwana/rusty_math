@@ -23,7 +23,7 @@ To use `rusty_math` in your project, add the following to your `Cargo.toml` file
 
 ```toml
 [dependencies]
-rusty_math = "0.1.2"
+rusty_math = "0.2.0"
 ```
 
 ## Modules
