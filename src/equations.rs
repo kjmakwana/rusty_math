@@ -71,7 +71,7 @@ fn f(coeff: &Vec<f64>, x: f64) -> f64 {
 }
 
 /// Function to find the root of a polynomial equation using the Regula Falsi (False Position) method. The function assumes that the equation has at least one real root. Usually converges faster than the bisection method.  
-/// Equation must be of the form a_1x^n + a_2x^(n-1) + ... + a_nx + a_n+1 = 0  
+/// Equation must be of the form a<sub>1</sub>x<sup>n</sup> + a<sub>2</sub>x<sup>n-1</sup> + ... + a<sub>n</sub>x + a<sub>n+1</sub> = 0 
 /// # Paramaters:
 /// coeff: Vec<f64> - A vector containing the coefficients of the polynomial equation
 /// tol: f64 - The tolerance value
@@ -142,7 +142,7 @@ pub fn regula_falsi(coeff: Vec<f64>, tol: f64) -> f64 {
 }
 
 /// Function to find the root of a polynomial equation using the Newton-Raphson method. The function assumes that the equation has at least one real root.  
-/// /// Equation must be of the form a_1x^n + a_2x^(n-1) + ... + a_nx + a_n+1 = 0  
+/// Equation must be of the form a<sub>1</sub>x<sup>n</sup> + a<sub>2</sub>x<sup>n-1</sup> + ... + a<sub>n</sub>x + a<sub>n+1</sub> = 0  
 /// Warning: The function may not converge if function is not well defined near root or derivative is zero or undefined at root.
 /// # Paramaters:
 /// coeff: &Vec<f64> - A reference to a vector containing the coefficients of the polynomial equation
