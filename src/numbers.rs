@@ -1,3 +1,12 @@
+//! # Numbers
+//! This module contains functions related to numbers.  
+//! The functions include finding prime numbers, checking if a number is prime, finding factorial, gcd, lcm etc.
+//! # Examples
+//! ```
+//! use rusty_math::numbers;
+//! let result = numbers::gcd(12, 15);
+//! ```
+
 /// Function to find all the prime numbers less than a given number  
 /// Uses the Sieve of Eratosthenes algorithm
 /// # Paramaters:
@@ -10,19 +19,18 @@
 /// let result = primes(10);
 /// ```
 pub fn primes(num: usize) -> Vec<usize> {
-
     let mut nums = vec![true; num + 1];
     let mut i = 2;
     loop {
-        if i*i >= num {
+        if i * i >= num {
             break;
         }
         if nums[i] == true {
-            for j in (i*i..num + 1).step_by(i) {
+            for j in (i * i..num + 1).step_by(i) {
                 nums[j] = false;
             }
         }
-        i+=1;
+        i += 1;
     }
     let mut primes = vec![];
     for i in 2..num {
@@ -31,10 +39,7 @@ pub fn primes(num: usize) -> Vec<usize> {
         }
     }
     primes
-
-
 }
-
 
 /// Function to check if a number is prime
 /// # Paramaters:
@@ -57,7 +62,6 @@ pub fn isprime(num: usize) -> bool {
     }
     true
 }
-
 
 /// Function to find the factorial of a number
 /// # Paramaters:
@@ -102,7 +106,6 @@ pub fn gcd(mut a: i32, mut b: i32) -> i32 {
     }
     a
 }
-
 
 /// Function to find the least common multiple of two numbers
 /// # Paramaters:

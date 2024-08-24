@@ -14,6 +14,7 @@ This is a Rust library for mathematical operations.
 - Integration
 - Differentiation
 - Solve a linear equation
+- Find roots of a polynomial using Falsi Reguli and Newton-Raphson methods
 - Linear Regression
 
 ## Installation
@@ -24,6 +25,14 @@ To use `rusty_math` in your project, add the following to your `Cargo.toml` file
 [dependencies]
 rusty_math = "0.1.2"
 ```
+
+## Modules
+
+1. numbers: Functions to find the GCD, LCM, factorial, to check for prime, to find all prime numbers less than n.
+2. calculus: Find the definite integral and slope of a function at a point.
+3. Linear: Fit and predict a linear regression function.
+4. Equations: Solve a system of linear equations and find a root of polynomials using Falsi Reguli and Newton-Raphson methods
+
 
 ## Usage
 

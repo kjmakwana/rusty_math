@@ -1,3 +1,12 @@
+//! # Calculus
+//! This module contains functions related to calculus.  
+//! The functions include finding the value of a definite integral using the trapezoidal rule, finding the value of the derivative of a function at a point etc.
+//! # Examples
+//! ```
+//! use rusty_math::calculus;
+//! let result = calculus::integrate(&|x| x*x, 0.0, 3.0);
+//! ```
+
 /// Function to find the value of a definite integral using the trapezoidal rule
 /// # Paramaters:
 /// f: &dyn Fn(f64) -> f64 - The function whose integral is to be found
@@ -23,8 +32,6 @@ pub fn integrate(f: &dyn Fn(f64) -> f64, a: f64, b: f64) -> f64 {
     sum
 }
 
-
-
 /// Function to find the value of the derivative of a function at a point
 /// # Paramaters:
 /// f: &dyn Fn(f64) -> f64 - The function whose derivative is to be found
@@ -40,5 +47,3 @@ pub fn differentiate(f: &dyn Fn(f64) -> f64, x: f64) -> f64 {
     let h = 0.0001;
     (f(x + h) - f(x - h)) / (2.0 * h)
 }
-
-

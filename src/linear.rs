@@ -1,56 +1,11 @@
-/// Function to solve a system of linear equations
-/// # Paramaters:
-/// coeff: Vec<Vec<f64>> - A vector of vectors containing the coefficients of the equations
-/// rhs: Vec<f64> - A vector containing the right hand side of the equations
-/// # Returns:
-/// Vec<f64> - A vector containing the solutions to the system of linear equations rounded upto 2 decimal places
-/// # Panics:
-/// If the number of equations and the number of right hand side values do not match
-/// # Examples
-/// ```
-/// use rusty_math::linear::solve_linear_eq;
-/// let coeff = vec![vec![2.0, 1.0, -1.0], vec![-3.0, -1.0, 2.0], vec![-2.0, 1.0, 2.0]];
-/// let rhs = vec![8.0, -11.0, -3.0];
-/// let result = solve_linear_eq(coeff, rhs);
-/// assert_eq!(result, vec![2.0, 3.0, -1.0]);
-/// ```
-pub fn solve_linear_eq(coeff: Vec<Vec<f64>>, rhs: Vec<f64>) -> Vec<f64> {
-    let n = coeff.len();
-    if coeff.len() != rhs.len() {
-        panic!("Number of equations and number of right hand side values do not match");
-    }
-    let mut coeff = coeff;
-    let mut rhs = rhs;
-    for i in 0..n {
-        let mut max = i;
-        for j in i+1..n {
-            if coeff[j][i].abs() > coeff[max][i].abs() {
-                max = j;
-            }
-        }
-        coeff.swap(i, max);
-        rhs.swap(i, max);
-        for j in i+1..n {
-            let ratio = coeff[j][i] / coeff[i][i];
-            for k in i..n {
-                coeff[j][k] -= ratio * coeff[i][k];
-            }
-            rhs[j] -= ratio * rhs[i];
-        }
-    }
-    let mut res = vec![0.0; n];
-    for i in (0..n).rev() {
-        let mut sum = 0.0;
-        for j in i+1..n {
-            sum += coeff[i][j] * res[j];
-        }
-        res[i] = (((rhs[i] - sum) / coeff[i][i])*100.0).round()/100.0;
-    }
-    res
-}
-
-
-
+//! # Linear Algebra
+//! This module contains functions and structs related to linear algebra. It includes functions to solve a system of linear equations and a struct to fit a linear regression model to the training data.
+//! # Examples
+//! ```
+//! use rusty_math::linear::LinearRegression;
+//! let model = LinearRegression::new();
+//! ```
+//!
 
 /// # Linear Regression
 /// Fits a linear regression model to the training data. The model is of the form y = w1*x1 + w2*x2 + ... + wn*xn + b.  
@@ -61,7 +16,6 @@ pub struct LinearRegression {
 }
 
 impl LinearRegression {
-
     /// Create a new LinearRegression object
     /// # Returns
     /// LinearRegression - A new LinearRegression object
@@ -76,7 +30,6 @@ impl LinearRegression {
             intercept: 0.0,
         }
     }
-
 
     /// Fit the Linear Regression model
     /// # Parameters
@@ -93,7 +46,7 @@ impl LinearRegression {
     /// model.fit(&x_train, &y_train, 0.01, 1000);
     /// ```
     /// # Panics
-    /// If the number of samples in the training data does not match the number of samples in the target values 
+    /// If the number of samples in the training data does not match the number of samples in the target values
     pub fn fit(&mut self, x_train: &Vec<Vec<f64>>, y_train: &Vec<f64>, lr: f64, n_iter: i32) {
         let n_samples = x_train.len();
         let n_features = x_train[0].len();
@@ -126,9 +79,7 @@ impl LinearRegression {
                 self.weights[i] -= lr * dw[i] / n_samples as f64;
             }
         }
-
     }
-   
 
     /// Predict the target values
     /// # Parameters
@@ -138,7 +89,10 @@ impl LinearRegression {
     /// # Examples
     /// ```
     /// use rusty_math::linear::LinearRegression;
-    /// let model = LinearRegression::new();
+    /// let mut model = LinearRegression::new();
+    /// let x_train = vec![vec![1.0, 2.0], vec![2.0, 3.0], vec![3.0, 4.0]];
+    /// let y_train = vec![3.0, 4.0, 5.0];
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
     /// let x_test = vec![vec![4.0, 5.0], vec![5.0, 6.0]];
     /// let y_pred = model.predict(&x_test);
     /// ```
@@ -160,6 +114,4 @@ impl LinearRegression {
         }
         y_pred
     }
-
-
 }
