@@ -1,5 +1,5 @@
-//! # Linear Algebra
-//! This module contains functions and structs related to linear algebra. It includes functions to solve a system of linear equations and a struct to fit a linear regression model to the training data.
+//! # Regression
+//! The `linear` module contains the `LinearRegression` struct. You can fit a linear regression model to the training data and use the model to predict the target values for test data.
 //! # Examples
 //! ```
 //! use rusty_math::linear::LinearRegression;
@@ -114,4 +114,38 @@ impl LinearRegression {
         }
         y_pred
     }
+
+
+    /// Get the weights of the model
+    /// # Returns
+    /// Vec<f64> - A vector containing the weights of the model
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::LinearRegression;
+    /// let mut model = LinearRegression::new();
+    /// let x_train = vec![vec![1.0, 2.0], vec![2.0, 3.0], vec![3.0, 4.0]];
+    /// let y_train = vec![3.0, 4.0, 5.0];
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let weights = model.get_weights();
+    /// ```
+    pub fn get_weights(&self) -> Vec<f64> {
+        self.weights.clone()
+    }
+
+    /// Get the intercept of the model
+    /// # Returns
+    /// f64 - The intercept of the model
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::LinearRegression;
+    /// let mut model = LinearRegression::new();
+    /// let x_train = vec![vec![1.0, 2.0], vec![2.0, 3.0], vec![3.0, 4.0]];
+    /// let y_train = vec![3.0, 4.0, 5.0];
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let intercept = model.get_intercept();
+    /// ```
+    pub fn get_intercept(&self) -> f64 {
+        self.intercept
+    }
+
 }

@@ -11,3 +11,4 @@ pub mod distributions;
 pub mod equations;
 pub mod linear;
 pub mod numbers;
+pub mod metrics;
