@@ -71,7 +71,7 @@ fn f(coeff: &Vec<f64>, x: f64) -> f64 {
 }
 
 /// Function to find the root of a polynomial equation using the Regula Falsi (False Position) method. The function assumes that the equation has at least one real root. Usually converges faster than the bisection method.  
-/// Equation must be of the form a<sub>1</sub>x<sup>n</sup> + a<sub>2</sub>x<sup>n-1</sup> + ... + a<sub>n</sub>x + a<sub>n+1</sub> = 0 
+/// Equation must be of the form a<sub>1</sub>x<sup>n</sup> + a<sub>2</sub>x<sup>n-1</sup> + ... + a<sub>n</sub>x + a<sub>n+1</sub> = 0
 /// # Paramaters:
 /// coeff: Vec<f64> - A vector containing the coefficients of the polynomial equation
 /// tol: f64 - The tolerance value

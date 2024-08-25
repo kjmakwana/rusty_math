@@ -16,6 +16,11 @@ This is a Rust library for mathematical operations.
 - Solve a linear equation
 - Find roots of a polynomial using Falsi Reguli and Newton-Raphson methods
 - Linear Regression
+- R<pow>2</pow> score
+- Mean squared error
+- Accuracy
+- Precision
+- Confusion Matrix
 
 ## Installation
 
@@ -32,6 +37,7 @@ rusty_math = "0.2.1"
 2. calculus: Find the definite integral and slope of a function at a point.
 3. Linear: Fit and predict a linear regression function.
 4. Equations: Solve a system of linear equations and find a root of polynomials using Falsi Reguli and Newton-Raphson methods
+5. Metrics: Score machine learning models.
 
 
 ## Usage

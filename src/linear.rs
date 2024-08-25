@@ -115,7 +115,6 @@ impl LinearRegression {
         y_pred
     }
 
-
     /// Get the weights of the model
     /// # Returns
     /// Vec<f64> - A vector containing the weights of the model
@@ -147,5 +146,4 @@ impl LinearRegression {
     pub fn get_intercept(&self) -> f64 {
         self.intercept
     }
-
 }
