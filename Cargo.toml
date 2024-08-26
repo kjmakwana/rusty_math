@@ -7,6 +7,6 @@ description = "rusty_math is a collection of mathematical functions implemented 
 repository = "https://github.com/kjmakwana/rusty_math"
 license-file = "LICENSE"
 readme = "README.md"
-keywords = ["math", "rust", "library", "regression in rust", "rusty math", "linear algebra in rust", "statistics in rust", "rusty statistics", "rusty linear algebra"]
+keywords = ["regression in rust", "rusty math", "linear algebra in rust", "precision in rust"]
 
 [dependencies]
