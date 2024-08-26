@@ -1,10 +1,12 @@
 [package]
 name = "rusty_math"
-version = "0.2.1"
+version = "0.3.0"
 edition = "2021"
 author = "Kshitij Makwana"
 description = "rusty_math is a collection of mathematical functions implemented in Rust"
 repository = "https://github.com/kjmakwana/rusty_math"
 license-file = "LICENSE"
+readme = "README.md"
+keywords = ["math", "rust", "library", "regression in rust", "rusty math", "linear algebra in rust", "statistics in rust", "rusty statistics", "rusty linear algebra"]
 
 [dependencies]

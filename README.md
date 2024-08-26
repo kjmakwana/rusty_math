@@ -21,6 +21,8 @@ This is a Rust library for mathematical operations.
 - Accuracy
 - Precision
 - Confusion Matrix
+- Recall
+- F1 score
 
 ## Installation
 
@@ -28,7 +30,7 @@ To use `rusty_math` in your project, add the following to your `Cargo.toml` file
 
 ```toml
 [dependencies]
-rusty_math = "0.2.1"
+rusty_math = "0.3.0"
 ```
 
 ## Modules

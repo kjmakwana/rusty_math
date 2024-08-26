@@ -87,7 +87,7 @@ pub fn r2_score(y_pred: &Vec<f64>, y_true: &Vec<f64>) -> f64 {
 /// ```
 /// # Panics
 /// If the number of samples in the predicted values does not match the number of samples in the true values
-pub fn accuracy(y_pred: &Vec<u8>, y_true: &Vec<u8>) -> HashMap<String,f64> {
+pub fn accuracy(y_pred: &Vec<u8>, y_true: &Vec<u8>) -> HashMap<String, f64> {
     if y_pred.len() != y_true.len() {
         panic!("Number of samples in predicted values does not match the number of samples in true values");
     }
@@ -104,11 +104,13 @@ pub fn accuracy(y_pred: &Vec<u8>, y_true: &Vec<u8>) -> HashMap<String,f64> {
         class_total[y_true[i] as usize] += 1;
     }
 
-
-    let mut scores=HashMap::new();
+    let mut scores = HashMap::new();
     scores.insert("Overall".to_string(), correct as f64 / n_samples as f64);
     for i in 0..nunique {
-        scores.insert(i.to_string(), class_correct[i] as f64 / class_total[i] as f64);
+        scores.insert(
+            i.to_string(),
+            class_correct[i] as f64 / class_total[i] as f64,
+        );
     }
     scores
 }
@@ -141,7 +143,6 @@ pub fn confusion_matrix(y_pred: &Vec<u8>, y_true: &Vec<u8>) -> Vec<Vec<u32>> {
     matrix
 }
 
-
 /// Calculate the precision of a classification model. The precision is defined as the number of true positive predictions divided by the total number of positive predictions.
 /// Function calculates the overall precision and the precision for each class (in case of multiclass classification). The function supports two methods for calculating precision: "macro" and "micro".
 /// # Parameters
@@ -160,28 +161,29 @@ pub fn confusion_matrix(y_pred: &Vec<u8>, y_true: &Vec<u8>) -> Vec<Vec<u32>> {
 /// # Panics
 /// If the number of samples in the predicted values does not match the number of samples in the true values
 /// If the method is not "macro" or "micro"
-pub fn precision(y_pred: &Vec<u8>, y_true: &Vec<u8>, method: &str) -> HashMap<String,f64> {
+pub fn precision(y_pred: &Vec<u8>, y_true: &Vec<u8>, method: &str) -> HashMap<String, f64> {
     if y_pred.len() != y_true.len() {
         panic!("Number of samples in predicted values does not match the number of samples in true values");
     }
     let matrix = confusion_matrix(&y_pred, &y_true);
     let nunique = y_true.iter().collect::<HashSet<_>>().len();
     let mut p = 0.0;
-    let mut precision = HashMap::new(); 
-    if nunique==1 {
-        precision.insert("overall".to_string(), matrix[0][0] as f64 / (matrix[0][0] + matrix[0][1]) as f64);
-    }
-    else {
-        
+    let mut precision = HashMap::new();
+    if nunique == 1 {
+        precision.insert(
+            "overall".to_string(),
+            matrix[0][0] as f64 / (matrix[0][0] + matrix[0][1]) as f64,
+        );
+    } else {
         match method {
             "macro" => {
                 let mut p_sum = 0.0;
                 for i in 0..nunique {
-                    for j in 0..nunique{
-                        p+=matrix[i][j] as f64;
+                    for j in 0..nunique {
+                        p += matrix[i][j] as f64;
                     }
-                    p_sum+=matrix[i][i] as f64;
-                    precision.insert(format!("precision_{}",i), matrix[i][i] as f64 / p as f64);
+                    p_sum += matrix[i][i] as f64;
+                    precision.insert(format!("precision_{}", i), matrix[i][i] as f64 / p as f64);
                 }
                 precision.insert("overall".to_string(), p_sum as f64 / nunique as f64);
             }
@@ -189,21 +191,19 @@ pub fn precision(y_pred: &Vec<u8>, y_true: &Vec<u8>, method: &str) -> HashMap<St
                 let mut tp = 0;
                 let mut fp = 0;
                 for i in 0..nunique {
-                    tp+=matrix[i][i];
+                    tp += matrix[i][i];
                     for j in 0..nunique {
-                        fp+=matrix[j][i];
+                        fp += matrix[j][i];
                     }
-                    precision.insert(format!("precision_{}",i), tp as f64 / (tp + fp) as f64);
+                    precision.insert(format!("precision_{}", i), tp as f64 / (tp + fp) as f64);
                 }
                 precision.insert("overall".to_string(), tp as f64 / (tp + fp) as f64);
             }
-            _ => panic!("Invalid method")
+            _ => panic!("Invalid method"),
         }
     }
     precision
 }
-    
-
 
 /// Calculate the recall of a classification model. The recall is defined as the number of true positive predictions divided by the total number of actual positive values.
 /// Function calculates the overall recall and the recall for each class (in case of multiclass classification). The function supports two methods for calculating recall: "macro" and "micro".
@@ -223,28 +223,29 @@ pub fn precision(y_pred: &Vec<u8>, y_true: &Vec<u8>, method: &str) -> HashMap<St
 /// # Panics
 /// If the number of samples in the predicted values does not match the number of samples in the true values
 /// If the method is not "macro" or "micro"
-pub fn recall(y_pred: &Vec<u8>,y_true: &Vec<u8>,method: &str) -> HashMap<String,f64> {
+pub fn recall(y_pred: &Vec<u8>, y_true: &Vec<u8>, method: &str) -> HashMap<String, f64> {
     if y_pred.len() != y_true.len() {
         panic!("Number of samples in predicted values does not match the number of samples in true values");
     }
     let matrix = confusion_matrix(&y_pred, &y_true);
     let nunique = y_true.iter().collect::<HashSet<_>>().len();
     let mut r = 0.0;
-    let mut recall = HashMap::new(); 
-    if nunique==1 {
-        recall.insert("overall".to_string(), matrix[0][0] as f64 / (matrix[0][0] + matrix[1][0]) as f64);
-    }
-    else {
-        
+    let mut recall = HashMap::new();
+    if nunique == 1 {
+        recall.insert(
+            "overall".to_string(),
+            matrix[0][0] as f64 / (matrix[0][0] + matrix[1][0]) as f64,
+        );
+    } else {
         match method {
             "macro" => {
                 let mut r_sum = 0.0;
                 for i in 0..nunique {
-                    for j in 0..nunique{
-                        r+=matrix[j][i] as f64;
+                    for j in 0..nunique {
+                        r += matrix[j][i] as f64;
                     }
-                    r_sum+=matrix[i][i] as f64;
-                    recall.insert(format!("recall_{}",i), matrix[i][i] as f64 / r as f64);
+                    r_sum += matrix[i][i] as f64;
+                    recall.insert(format!("recall_{}", i), matrix[i][i] as f64 / r as f64);
                 }
                 recall.insert("overall".to_string(), r_sum as f64 / nunique as f64);
             }
@@ -252,20 +253,19 @@ pub fn recall(y_pred: &Vec<u8>,y_true: &Vec<u8>,method: &str) -> HashMap<String,
                 let mut tp = 0;
                 let mut f_n = 0;
                 for i in 0..nunique {
-                    tp+=matrix[i][i];
+                    tp += matrix[i][i];
                     for j in 0..nunique {
-                        f_n+=matrix[i][j];
+                        f_n += matrix[i][j];
                     }
-                    recall.insert(format!("recall_{}",i), tp as f64 / (tp + f_n) as f64);
+                    recall.insert(format!("recall_{}", i), tp as f64 / (tp + f_n) as f64);
                 }
                 recall.insert("overall".to_string(), tp as f64 / (tp + f_n) as f64);
             }
-            _ => panic!("Invalid method")
+            _ => panic!("Invalid method"),
         }
     }
     recall
 }
-
 
 /// Calculate the F1 score of a classification model. The F1 score is the harmonic mean of the precision and recall.
 /// Function calculates the overall F1 score and the F1 score for each class (in case of multiclass classification). The function supports two methods for calculating F1 score: "macro" and "micro".
@@ -285,18 +285,27 @@ pub fn recall(y_pred: &Vec<u8>,y_true: &Vec<u8>,method: &str) -> HashMap<String,
 /// # Panics
 /// If the number of samples in the predicted values does not match the number of samples in the true values
 /// If the method is not "macro" or "micro"
-pub fn f1(y_pred: &Vec<u8>,y_true: &Vec<u8>,method: &str) -> HashMap<String,f64> {
+pub fn f1(y_pred: &Vec<u8>, y_true: &Vec<u8>, method: &str) -> HashMap<String, f64> {
     let precision = precision(&y_pred, &y_true, method);
     let recall = recall(&y_pred, &y_true, method);
     let nunique = y_true.iter().collect::<HashSet<_>>().len();
     let mut f1 = HashMap::new();
-    f1.insert("overall".to_string(), 2.0 * (precision.get("overall").unwrap() * recall.get("overall").unwrap()) / (precision.get("overall").unwrap() + recall.get("overall").unwrap()));
+    f1.insert(
+        "overall".to_string(),
+        2.0 * (precision.get("overall").unwrap() * recall.get("overall").unwrap())
+            / (precision.get("overall").unwrap() + recall.get("overall").unwrap()),
+    );
     for i in 0..nunique {
-        f1.insert(format!("f1_{}",i), 2.0 * (precision.get(&format!("precision_{}",i)).unwrap() * recall.get(&format!("recall_{}",i)).unwrap()) / (precision.get(&format!("precision_{}",i)).unwrap() + recall.get(&format!("recall_{}",i)).unwrap()));
+        f1.insert(
+            format!("f1_{}", i),
+            2.0 * (precision.get(&format!("precision_{}", i)).unwrap()
+                * recall.get(&format!("recall_{}", i)).unwrap())
+                / (precision.get(&format!("precision_{}", i)).unwrap()
+                    + recall.get(&format!("recall_{}", i)).unwrap()),
+        );
     }
     f1
 }
-
 
 #[cfg(test)]
 mod tests {

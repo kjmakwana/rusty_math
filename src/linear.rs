@@ -1,5 +1,6 @@
 //! # Regression
-//! The `linear` module contains the `LinearRegression` struct. You can fit a linear regression model to the training data and use the model to predict the target values for test data.
+//! The `linear` module contains the `LinearRegression` struct.   
+//! You can fit a linear regression model in Rust to the training data and use the model to predict the target values for test data.
 //! # Examples
 //! ```
 //! use rusty_math::linear::LinearRegression;
