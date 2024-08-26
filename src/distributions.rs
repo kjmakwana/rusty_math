@@ -10,7 +10,7 @@
 use crate::{calculus, numbers};
 /// Function to find the number of ways to choose and arrange r items from n items
 /// # Paramaters:
-/// n: usize - The total number of items
+/// n: usize - The total number of items  
 /// r: usize - The number of items to be arranged
 /// # Returns:
 /// usize - The number of ways to choose and arrange r items from n items
@@ -32,7 +32,7 @@ pub fn permutation(n: usize, r: usize) -> usize {
 
 /// Function to find the number of ways to choose r items from n items
 /// # Paramaters:
-/// n: usize - The total number of items
+/// n: usize - The total number of items  
 /// r: usize - The number of items to be chosen
 /// # Returns:
 /// usize - The number of ways to choose r items from n items

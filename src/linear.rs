@@ -34,10 +34,10 @@ impl LinearRegression {
 
     /// Fit the Linear Regression model
     /// # Parameters
-    /// x_train: &Vec<Vec<f64>> - A reference to a vector of vectors containing the training data
-    /// y_train: &Vec<f64> - A reference to a vector containing the target values
-    /// lr: f64 - The learning rate
-    /// n_iter: i32 - The number of iterations
+    /// x_train: &Vec<Vec<f64>> - A reference to a vector of vectors containing the training data  
+    /// y_train: &Vec<f64> - A reference to a vector containing the target values  
+    /// lr: f64 - The learning rate  
+    /// n_iter: i32 - The number of iterations  
     /// # Examples
     /// ```
     /// use rusty_math::linear::LinearRegression;
@@ -84,7 +84,7 @@ impl LinearRegression {
 
     /// Predict the target values
     /// # Parameters
-    /// x_test: &Vec<Vec<f64> - A reference to a vector of vectors containing the test data
+    /// x_test: &Vec<Vec<f64> - A reference to a vector of vectors containing the test data  
     /// # Returns
     /// Vec<f64> - A vector containing the predicted target values
     /// # Examples

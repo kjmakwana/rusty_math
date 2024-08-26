@@ -83,7 +83,7 @@ pub fn factorial(num: usize) -> usize {
 
 /// Function to find the greatest common divisor of two numbers
 /// # Paramaters:
-/// a: i32 - The first number
+/// a: i32 - The first number  
 /// b: i32 - The second number
 /// # Returns:
 /// i32 - The greatest common divisor of the two numbers
@@ -109,7 +109,7 @@ pub fn gcd(mut a: i32, mut b: i32) -> i32 {
 
 /// Function to find the least common multiple of two numbers
 /// # Paramaters:
-/// a: i32 - The first number
+/// a: i32 - The first number  
 /// b: i32 - The second number
 /// # Returns:
 /// i32 - The least common multiple of the two numbers
