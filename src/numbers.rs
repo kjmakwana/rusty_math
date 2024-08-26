@@ -1,6 +1,6 @@
 //! # Numbers
 //! This module contains functions related to numbers.  
-//! The functions include finding prime numbers, checking if a number is prime, finding factorial, gcd, lcm etc.
+//! The functions include finding prime numbers, checking if a number is prime, finding factorial, gcd, lcm etc in Rust.
 //! # Examples
 //! ```
 //! use rusty_math::numbers;

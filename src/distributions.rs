@@ -1,6 +1,6 @@
 //! # Distributions
-//! This module contains functions related to gamma and beta distributions.  
-//! The functions include finding the gamma function, beta function, permutation and combination.
+//! This module contains functions related to gamma and beta distributions in Rust.  
+//! The functions include finding the gamma function, beta function, permutation and combination in Rust.
 //! # Examples
 //! ```
 //! use rusty_math::distributions::{permutation, combination, gamma, beta};

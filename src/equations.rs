@@ -1,5 +1,5 @@
 //! # Equations
-//! This module contains functions to solve equations and find roots of equations.
+//! This module contains functions to solve equations and find roots of equations in Rust.
 //! The functions include solving a system of linear equations, finding the root of a polynomial equation using the Regula Falsi method and the Newton-Raphson method.
 //! # Examples
 //! ```

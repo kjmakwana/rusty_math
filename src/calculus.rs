@@ -1,6 +1,6 @@
 //! # Calculus
 //! This module contains functions related to calculus.  
-//! The functions include finding the value of a definite integral using the trapezoidal rule, finding the value of the derivative of a function at a point etc.
+//! The functions include finding the value of a definite integral using the trapezoidal rule, finding the value of the derivative of a function at a point in Rust.
 //! # Examples
 //! ```
 //! use rusty_math::calculus;

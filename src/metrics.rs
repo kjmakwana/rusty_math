@@ -1,5 +1,5 @@
 //! # Evaluation Metrics
-//! Module for evaluating the performance of machine learning models
+//! Module for evaluating the performance of machine learning models in Rust.
 //! ## Functions
 //! - mean_squared_error
 //! - r2_score
