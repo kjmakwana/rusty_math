@@ -10,10 +10,10 @@
 use crate::{calculus, numbers};
 /// Function to find the number of ways to choose and arrange r items from n items
 /// # Paramaters:
-/// n: usize - The total number of items  
-/// r: usize - The number of items to be arranged
+/// n: `usize` - The total number of items  
+/// r: `usize` - The number of items to be arranged
 /// # Returns:
-/// usize - The number of ways to choose and arrange r items from n items
+/// `usize` - The number of ways to choose and arrange r items from n items
 /// # Examples
 /// ```
 /// use rusty_math::distributions::permutation;
@@ -32,10 +32,10 @@ pub fn permutation(n: usize, r: usize) -> usize {
 
 /// Function to find the number of ways to choose r items from n items
 /// # Paramaters:
-/// n: usize - The total number of items  
-/// r: usize - The number of items to be chosen
+/// n: `usize` - The total number of items  
+/// r: `usize` - The number of items to be chosen
 /// # Returns:
-/// usize - The number of ways to choose r items from n items
+/// `usize` - The number of ways to choose r items from n items
 /// # Examples
 /// ```
 /// use rusty_math::distributions::combination;
@@ -50,9 +50,9 @@ pub fn combination(n: usize, r: usize) -> usize {
 
 /// Function to find the gamma function of a number
 /// # Paramaters:
-/// n: f64 - The number whose gamma function is to be found
+/// n: `f64` - The number whose gamma function is to be found
 /// # Returns:
-/// f64 - The gamma function of the given number
+/// `f64` - The gamma function of the given number
 /// # Examples
 /// ```
 /// use rusty_math::distributions::gamma;
@@ -66,10 +66,10 @@ pub fn gamma(n: f64) -> f64 {
 
 /// Function to find the beta function of two numbers
 /// # Paramaters:
-/// x: f64 - The first number
-/// y: f64 - The second number
+/// x: `f64` - The first number
+/// y: `f64` - The second number
 /// # Returns:
-/// f64 - The beta function of the two numbers
+/// `f64` - The beta function of the two numbers
 /// # Examples
 /// ```
 /// use rusty_math::distributions::beta;

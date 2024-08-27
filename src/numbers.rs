@@ -10,9 +10,9 @@
 /// Function to find all the prime numbers less than a given number  
 /// Uses the Sieve of Eratosthenes algorithm
 /// # Paramaters:
-/// num: usize - The positive number upto which the prime numbers are to be found
+/// num: `usize` - The positive number upto which the prime numbers are to be found
 /// # Returns:
-/// Vec<usize> - A vector containing all the prime numbers less than the given number
+/// `Vec<usize>` - A vector containing all the prime numbers less than the given number
 /// # Examples
 /// ```
 /// use rusty_math::numbers::primes;
@@ -43,9 +43,9 @@ pub fn primes(num: usize) -> Vec<usize> {
 
 /// Function to check if a number is prime
 /// # Paramaters:
-/// num: usize - The positive number to be checked
+/// num: `usize` - The positive number to be checked
 /// # Returns:
-/// bool - True if the number is prime, False otherwise
+/// `bool` - True if the number is prime, False otherwise
 /// # Examples
 /// ```
 /// use rusty_math::numbers::isprime;
@@ -65,9 +65,9 @@ pub fn isprime(num: usize) -> bool {
 
 /// Function to find the factorial of a number
 /// # Paramaters:
-/// num: usize - The positive number whose factorial is to be found
+/// num: `usize` - The positive number whose factorial is to be found
 /// # Returns:
-/// usize - The factorial of the given number
+/// `usize` - The factorial of the given number
 /// # Examples
 /// ```
 /// use rusty_math::numbers::factorial;
@@ -83,10 +83,10 @@ pub fn factorial(num: usize) -> usize {
 
 /// Function to find the greatest common divisor of two numbers
 /// # Paramaters:
-/// a: i32 - The first number  
-/// b: i32 - The second number
+/// a: `i32` - The first number  
+/// b: `i32` - The second number
 /// # Returns:
-/// i32 - The greatest common divisor of the two numbers
+/// `i32` - The greatest common divisor of the two numbers
 /// # Panics:
 /// If the input is negative
 /// # Examples
@@ -109,10 +109,10 @@ pub fn gcd(mut a: i32, mut b: i32) -> i32 {
 
 /// Function to find the least common multiple of two numbers
 /// # Paramaters:
-/// a: i32 - The first number  
-/// b: i32 - The second number
+/// a: `i32` - The first number  
+/// b: `i32` - The second number
 /// # Returns:
-/// i32 - The least common multiple of the two numbers
+/// `i32` - The least common multiple of the two numbers
 /// # Panics:
 /// If the input is negative
 /// # Examples

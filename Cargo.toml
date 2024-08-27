@@ -10,3 +10,4 @@ readme = "README.md"
 keywords = ["regression", "math", "linearalgebra", "precision"]
 
 [dependencies]
+itertools = "0.10.0"

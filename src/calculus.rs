@@ -9,11 +9,11 @@
 
 /// Function to find the value of a definite integral using the trapezoidal rule
 /// # Paramaters:
-/// f: &dyn Fn(f64) -> f64 - The function whose integral is to be found  
-/// a: f64 - The lower limit of the integral  
-/// b: f64 - The upper limit of the integral
+/// f: `&dyn Fn(f64) -> f64` - The function whose integral is to be found  
+/// a: `f64` - The lower limit of the integral  
+/// b: `f64` - The upper limit of the integral
 /// # Returns:
-/// f64 - The value of the definite integral
+/// `f64` - The value of the definite integral
 /// # Examples
 /// ```
 /// use rusty_math::calculus::integrate;
@@ -34,10 +34,10 @@ pub fn integrate(f: &dyn Fn(f64) -> f64, a: f64, b: f64) -> f64 {
 
 /// Function to find the value of the derivative of a function at a point
 /// # Paramaters:
-/// f: &dyn Fn(f64) -> f64 - The function whose derivative is to be found  
-/// x: f64 - The point at which the derivative is to be found
+/// f: `&dyn Fn(f64) -> f64` - The function whose derivative is to be found  
+/// x: `f64` - The point at which the derivative is to be found
 /// # Returns:
-/// f64 - The value of the derivative at the given point
+/// `f64` - The value of the derivative at the given point
 /// # Examples
 /// ```
 /// use rusty_math::calculus::differentiate;

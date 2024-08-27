@@ -13,10 +13,10 @@ use std::collections::{HashMap, HashSet};
 /// Calculate the mean squared error (MSE) of the model
 /// The mean squared error is defined as the average of the squared differences between the predicted and true target values
 /// # Parameters
-/// y_pred: &Vec<f64> - A reference to a vector containing the predicted target values  
-/// y_true: &Vec<f64> - A reference to a vector containing the true target values  
+/// y_pred: `&Vec<f64>` - A reference to a vector containing the predicted target values  
+/// y_true: `&Vec<f64>` - A reference to a vector containing the true target values  
 /// # Returns
-/// f64 - The mean squared error
+/// `f64` - The mean squared error
 /// # Examples
 /// ```
 /// use rusty_math::metrics::mse;
@@ -42,10 +42,10 @@ pub fn mse(y_pred: &Vec<f64>, y_true: &Vec<f64>) -> f64 {
 /// Calculate the R<sup>2</sup> score as the goodness of fit of the model
 /// The R<sup>2</sup> score is defined as 1 - RSS/TSS, where RSS is the residual sum of squares and TSS is the total sum of squares
 /// # Parameters
-/// y_pred: &Vec<f64> - A reference to a vector containing the predicted target values  
-/// y_true: &Vec<f64> - A reference to a vector containing the true target values  
+/// y_pred: `&Vec<f64>` - A reference to a vector containing the predicted target values  
+/// y_true: `&Vec<f64>` - A reference to a vector containing the true target values  
 /// # Returns
-/// f64 - The R<sup>2</sup> score
+/// `f64` - The R<sup>2</sup> score
 /// # Examples
 /// ```
 /// use rusty_math::metrics::mse;
