@@ -1,6 +1,7 @@
 //! # Regression
 //! The `linear` module structs for fitting linear models.   
 //! You can fit a linear regression or polynomial model in Rust to the training data and use the model to predict the target values for test data.
+//! You can also fit a ridge or lasso regression model to the training data and use the model to predict the target values for test data.
 //! # Examples
 //! ```
 //! use rusty_math::linear::LinearRegression;

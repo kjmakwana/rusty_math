@@ -30,17 +30,18 @@ To use `rusty_math` in your project, add the following to your `Cargo.toml` file
 
 ```toml
 [dependencies]
-rusty_math = "0.3.1"
+rusty_math = "0.4.0"
 ```
 
 ## Modules
 
 1. numbers: Functions to find the GCD, LCM, factorial, to check for prime, to find all prime numbers less than n.
 2. calculus: Find the definite integral and slope of a function at a point.
-3. Linear: Fit and predict a linear regression function.
+3. Linear: Fit and predict a several types regression function.
 4. Equations: Solve a system of linear equations and find a root of polynomials using Falsi Reguli and Newton-Raphson methods
-5. Metrics: Score machine learning models.
-
+5. Metrics: Score machine learning models.  
+  
+See detailed documation for list of functionalities in each module.  
 
 ## Usage
 
@@ -55,7 +56,8 @@ fn main() {
 
 ## Contributing
 
-Contributions are welcome! If you find any bugs or have suggestions for improvements, please open an issue or submit a pull request.
+Contributions are welcome! If you find any bugs or have suggestions for improvements, please open an issue or submit a pull request.  
+In case of any questions or feedback feel free to contact me at kjmakwana00@gmail.com  
 
 ## License
 
