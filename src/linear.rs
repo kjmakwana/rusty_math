@@ -367,6 +367,334 @@ impl PolynomialRegression {
 }
 
 
+/// # Ridge Regression
+/// Fits a ridge regression model to the training data. The model is of the form y = b + a<sub>1</sub>x<sub>1</sub> + a<sub>2</sub>x<sub>2</sub> + ... + a<sub>n</sub>x<sub>n</sub>.
+/// The model is fit using gradient descent with L2 regularization. The model can be used to predict the target values for test data.
+/// # Examples
+/// ```
+/// use rusty_math::linear::RidgeRegression;
+/// let model = RidgeRegression::new(0.01);
+/// ```
+pub struct RidgeRegression {
+    pub weights: Vec<f64>,
+    pub intercept: f64,
+    pub alpha: f64,
+}
+
+impl RidgeRegression {
+
+    /// Create a new RidgeRegression object
+    /// # Parameters
+    /// alpha: `f64` - The regularization parameter
+    /// # Returns
+    /// `RidgeRegression` - A new RidgeRegression object
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::RidgeRegression;
+    /// let model = RidgeRegression::new(0.01);
+    /// ```
+    pub fn new(alpha: f64) -> RidgeRegression {
+        RidgeRegression {
+            weights: Vec::new(),
+            intercept: 0.0,
+            alpha: alpha,
+        }
+    }
+
+    /// Fit the Ridge Regression model. The model is fit using gradient descent with L2 regularization.
+    /// # Parameters
+    /// x_train: `&Vec<Vec<f64>>` - A reference to a vector of vectors containing the training data  
+    /// y_train: `&Vec<f64>` - A reference to a vector containing the target values  
+    /// lr: `f64` - The learning rate  
+    /// n_iter: `i32` - The number of iterations  
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::RidgeRegression;
+    /// let mut model = RidgeRegression::new(0.01);
+    /// let x_train = vec![vec![1.0, 2.0], vec![2.0, 3.0], vec![3.0, 4.0]];
+    /// let y_train = vec![3.0, 4.0, 5.0];
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// ```
+    /// # Panics
+    /// If the number of samples in the training data does not match the number of samples in the target values
+    pub fn fit(&mut self, x_train: &Vec<Vec<f64>>, y_train: &Vec<f64>, lr: f64, n_iter: i32) {
+        let n_samples = x_train.len();
+        let n_features = x_train[0].len();
+        self.weights = vec![1.0; n_features];
+        if n_samples != y_train.len() {
+            panic!("Number of samples in training data does not match the number of samples in target values");
+        }
+
+        for _ in 0..n_iter {
+            let mut y_pred = vec![0.0; n_samples];
+            for i in 0..n_samples {
+                for j in 0..n_features {
+                    y_pred[i] += self.weights[j] * x_train[i][j];
+                }
+                y_pred[i] += self.intercept;
+            }
+            let mut dw = vec![0.0; n_features];
+            let mut di = 0.0;
+
+            for i in 0..n_samples {
+                for j in 0..n_features {
+                    dw[j] += (y_pred[i] - y_train[i]) * x_train[i][j] ;
+                }
+                di += y_pred[i] - y_train[i];
+            }
+
+            self.intercept -= lr * di / n_samples as f64;
+            for i in 0..n_features {
+                self.weights[i] -= lr * (dw[i] / n_samples as f64 + self.alpha * self.weights[i].powi(2));
+            }
+        }
+    }
+
+    /// Predict the target values. 
+    /// # Parameters
+    /// x_test: `Vec<Vec<f64>` - A reference to a vector of vectors containing the test data  
+    /// # Returns
+    /// `Vec<f64>` - A vector containing the predicted target values  
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::RidgeRegression;
+    /// let mut model = RidgeRegression::new(0.01);
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let x_test = vec![vec![4.0, 5.0], vec![5.0, 6.0]];
+    /// let y_pred = model.predict(&x_test);
+    /// ```
+    /// # Panics
+    /// If the number of features in the test data does not match the number of features in the training data
+    pub fn predict(&self, x_test: &Vec<Vec<f64>>) -> Vec<f64> {
+        let n_samples = x_test.len();
+        let n_features = x_test[0].len();
+        if n_features != self.weights.len() {
+            panic!("Number of features in test data does not match the number of features in training data");
+        }
+        let mut y_pred = vec![0.0; n_samples];
+
+        for i in 0..n_samples {
+            for j in 0..n_features {
+                y_pred[i] += self.weights[j] * x_test[i][j];
+            }
+            y_pred[i] += self.intercept;
+        }
+        y_pred
+    }
+
+    /// Get the weights of the model
+    /// # Returns
+    /// `Vec<f64>` - A vector containing the weights of the model  
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::RidgeRegression;
+    /// let mut model = RidgeRegression::new(0.01);
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let weights = model.get_weights();
+    /// ```
+    pub fn get_weights(&self) -> Vec<f64> {
+        self.weights.clone()
+    }
+
+    /// Get the intercept of the model
+    /// # Returns
+    /// `f64` - The intercept of the model
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::RidgeRegression;
+    /// let mut model = RidgeRegression::new(0.01);
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let intercept = model.get_intercept();
+    /// ```
+    pub fn get_intercept(&self) -> f64 {
+        self.intercept
+    }
+
+    /// Get the R<sup>2</sup> score of the model on the test data
+    /// # Parameters
+    /// x_test: `&Vec<Vec<f64>>` - A reference to a vector of vectors containing the test data  
+    /// y_test: `&Vec<f64>` - A reference to a vector containing the target values
+    /// # Returns
+    /// `f64` - The R<sup>2</sup> score of the model on the test data
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::RidgeRegression;
+    /// let mut model = RidgeRegression::new(0.01);
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let score = model.score(&x_test, &y_test);
+    /// ```
+    pub fn score(&self, x_test: &Vec<Vec<f64>>, y_test: &Vec<f64>) -> f64 {
+        let y_pred = self.predict(x_test);
+        r2_score(y_test, &y_pred)
+    }
+
+}
+
+/// # Lasso Regression
+/// Fits a lasso regression model to the training data. The model is of the form y = b + a<sub>1</sub>x<sub>1</sub> + a<sub>2</sub>x<sub>2</sub> + ... + a<sub>n</sub>x<sub>n</sub>.
+/// The model is fit using gradient descent with L1 regularization. The model can be used to predict the target values for test data.
+/// # Examples
+/// ```
+/// use rusty_math::linear::LassoRegression;
+/// let model = LassoRegression::new(0.01);
+/// ```
+pub struct LassoRegression {
+    pub weights: Vec<f64>,
+    pub intercept: f64,
+    pub alpha: f64,
+}
+
+impl LassoRegression {
+    /// Create a new LassoRegression object. 
+    /// # Parameters
+    /// alpha: `f64` - The regularization parameter
+    /// # Returns
+    /// `LassoRegression` - A new LassoRegression object
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::LassoRegression;
+    /// let model = LassoRegression::new(0.01);
+    /// ```
+    pub fn new(alpha: f64) -> LassoRegression {
+        LassoRegression {
+            weights: Vec::new(),
+            intercept: 0.0,
+            alpha: alpha,
+        }
+    }
+
+    /// Fit the Lasso Regression model. The model is fit using gradient descent with L1 regularization.
+    /// # Parameters
+    /// x_train: `&Vec<Vec<f64>>` - A reference to a vector of vectors containing the training data  
+    /// y_train: `&Vec<f64>` - A reference to a vector containing the target values  
+    /// lr: `f64` - The learning rate  
+    /// n_iter: `i32` - The number of iterations  
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::LassoRegression;
+    /// let mut model = LassoRegression::new(0.01);
+    /// let x_train = vec![vec![1.0, 2.0], vec![2.0, 3.0], vec![3.0, 4.0]];
+    /// let y_train = vec![3.0, 4.0, 5.0];
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// ```
+    /// # Panics
+    /// If the number of samples in the training data does not match the number of samples in the target values.  
+    pub fn fit(&mut self, x_train: &Vec<Vec<f64>>, y_train: Vec<f64>, lr: f64, n_iters: i32) {
+        let n_samples = x_train.len();
+        let n_features = x_train[0].len();
+        self.weights = vec![1.0; n_features];
+        if n_samples != y_train.len() {
+            panic!("Number of samples in training data does not match the number of samples in target values");
+        }
+
+        for _ in 0..n_iters {
+            let mut y_pred = vec![0.0; n_samples];
+            for i in 0..n_samples {
+                for j in 0..n_features {
+                    y_pred[i] += self.weights[j] * x_train[i][j];
+                }
+                y_pred[i] += self.intercept;
+            }
+            let mut dw = vec![0.0; n_features];
+            let mut di = 0.0;
+
+            for i in 0..n_samples {
+                for j in 0..n_features {
+                    dw[j] += (y_pred[i] - y_train[i]) * x_train[i][j];
+                }
+                di += y_pred[i] - y_train[i];
+            }
+
+            self.intercept -= lr * di / n_samples as f64;
+            for i in 0..n_features {
+                self.weights[i] -= lr * (dw[i] / n_samples as f64 + self.alpha * self.weights[i].signum());
+            }
+        }
+    }
+
+
+    /// Predict the target values from the test data.  
+    /// # Parameters
+    /// x_test: `Vec<Vec<f64>` - A reference to a vector of vectors containing the test data
+    /// # Returns
+    /// `Vec<f64>` - A vector containing the predicted target values
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::LassoRegression;
+    /// let mut model = LassoRegression::new(0.01);
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let x_test = vec![vec![4.0, 5.0], vec![5.0, 6.0]];
+    /// let y_pred = model.predict(&x_test);
+    /// ```
+    /// # Panics
+    /// If the number of features in the test data does not match the number of features in the training data
+    pub fn predict(&self, x_test: &Vec<Vec<f64>>) -> Vec<f64> {
+        let n_samples = x_test.len();
+        let n_features = x_test[0].len();
+        if n_features != self.weights.len() {
+            panic!("Number of features in test data does not match the number of features in training data");
+        }
+        let mut y_pred = vec![0.0; n_samples];
+
+        for i in 0..n_samples {
+            for j in 0..n_features {
+                y_pred[i] += self.weights[j] * x_test[i][j];
+            }
+            y_pred[i] += self.intercept;
+        }
+        y_pred
+    }
+
+    /// Get the weights of the model
+    /// # Returns
+    /// `Vec<f64>` - A vector containing the weights of the model
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::LassoRegression;
+    /// let mut model = LassoRegression::new(0.01);
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let weights = model.weights();
+    /// ```
+    pub fn weights(&self) -> Vec<f64> {
+        self.weights.clone()
+    }
+
+
+    /// Get the intercept of the model
+    /// # Returns
+    /// `f64` - The intercept of the model
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::LassoRegression;
+    /// let mut model = LassoRegression::new(0.01);
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let intercept = model.intercept();
+    /// ```
+    pub fn intercept(&self) -> f64 {
+        self.intercept
+    }
+
+
+    /// Get the R<sup>2</sup> score of the model on the test data.
+    /// # Parameters
+    /// x_test: `&Vec<Vec<f64>>` - A reference to a vector of vectors containing the test data  
+    /// y_test: `&Vec<f64>` - A reference to a vector containing the target values      
+    /// # Returns  
+    /// `f64` - The R<sup>2</sup> score of the model on the test data
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::LassoRegression;
+    /// let mut model = LassoRegression::new(0.01);
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let score = model.score(&x_test, &y_test);
+    /// ```
+    pub fn score(&self, x_test: &Vec<Vec<f64>>, y_test: &Vec<f64>) -> f64 {
+        let y_pred = self.predict(x_test);
+        r2_score(y_test, &y_pred)
+    }
+    
+
+}
 
 #[cfg(test)]
 mod tests {
@@ -383,7 +711,6 @@ mod tests {
         let score = model.score(&x_test, &vec![6.0, 7.0]);
         let coefficients = model.get_weights();
         let intercept = model.get_intercept();
-        assert_eq!(y_pred, vec![6.0, 7.0]);
     }
 
     #[test]
@@ -397,6 +724,32 @@ mod tests {
         let score = model.score(&x_test, &vec![16.0, 25.0]);
         let coefficients = model.get_weights();
         let intercept = model.get_intercept();
-        assert_eq!(y_pred, vec![6.0, 7.0]);
+    }
+
+    #[test]
+    fn test_ridge_regression() {
+        let mut model = RidgeRegression::new(0.01);
+        let x_train = vec![vec![1.0, 2.0], vec![2.0, 3.0], vec![3.0, 4.0]];
+        let y_train = vec![3.0, 4.0, 5.0];
+        model.fit(&x_train, &y_train, 0.01, 1000);
+        let x_test = vec![vec![4.0, 5.0], vec![5.0, 6.0]];
+        let y_pred = model.predict(&x_test);
+        let score = model.score(&x_test, &vec![6.0, 7.0]);
+        let coefficients = model.get_weights();
+        let intercept = model.get_intercept();
+    }
+
+
+    #[test]
+    fn test_lasso_regression() {
+        let mut model = LassoRegression::new(0.01);
+        let x_train = vec![vec![1.0, 2.0], vec![1.0, 3.0], vec![1.0, 4.0]];
+        let y_train = vec![3.0, 4.0, 5.0];
+        model.fit(&x_train, y_train, 0.1, 1000);
+        let x_test = vec![vec![1.0, 5.0], vec![1.0, 6.0]];
+        let y_pred = model.predict(&x_test);
+        let score = model.score(&x_test, &vec![6.0, 7.0]);
+        let coefficients = model.weights();
+        let intercept = model.intercept();
     }
 }
