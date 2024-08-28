@@ -7,10 +7,8 @@
 //! use rusty_math::linear::LinearRegression;
 //! let model = LinearRegression::new();
 //! ```
-//!
 
 use crate::metrics::r2_score;
-
 
 /// # Linear Regression
 /// Fits a linear regression model to the training data. The model is of the form y = b + a<sub>1</sub>x<sub>1</sub> + a<sub>2</sub>x<sub>2</sub> + ... + a<sub>n</sub>x<sub>n</sub>.  
@@ -21,7 +19,6 @@ pub struct LinearRegression {
 }
 
 impl LinearRegression {
-
     /// Create a new LinearRegression object
     /// # Returns
     /// `LinearRegression` - A new LinearRegression object
@@ -153,7 +150,6 @@ impl LinearRegression {
         self.intercept
     }
 
-
     /// Get the R<sup>2</sup> score of the model on the test data
     /// # Parameters
     /// x_test: `&Vec<Vec<f64>>` - A reference to a vector of vectors containing the test data
@@ -171,7 +167,6 @@ impl LinearRegression {
         let y_pred = self.predict(x_test);
         r2_score(y_test, &y_pred)
     }
-        
 }
 
 /// # Polynomial Regression
@@ -367,7 +362,6 @@ impl PolynomialRegression {
     }
 }
 
-
 /// # Ridge Regression
 /// Fits a ridge regression model to the training data. The model is of the form y = b + a<sub>1</sub>x<sub>1</sub> + a<sub>2</sub>x<sub>2</sub> + ... + a<sub>n</sub>x<sub>n</sub>.
 /// The model is fit using gradient descent with L2 regularization. The model can be used to predict the target values for test data.
@@ -383,7 +377,6 @@ pub struct RidgeRegression {
 }
 
 impl RidgeRegression {
-
     /// Create a new RidgeRegression object
     /// # Parameters
     /// alpha: `f64` - The regularization parameter
@@ -439,19 +432,20 @@ impl RidgeRegression {
 
             for i in 0..n_samples {
                 for j in 0..n_features {
-                    dw[j] += (y_pred[i] - y_train[i]) * x_train[i][j] ;
+                    dw[j] += (y_pred[i] - y_train[i]) * x_train[i][j];
                 }
                 di += y_pred[i] - y_train[i];
             }
 
             self.intercept -= lr * di / n_samples as f64;
             for i in 0..n_features {
-                self.weights[i] -= lr * (dw[i] / n_samples as f64 + self.alpha * self.weights[i].powi(2));
+                self.weights[i] -=
+                    lr * (dw[i] / n_samples as f64 + self.alpha * self.weights[i].powi(2));
             }
         }
     }
 
-    /// Predict the target values. 
+    /// Predict the target values.
     /// # Parameters
     /// x_test: `Vec<Vec<f64>` - A reference to a vector of vectors containing the test data  
     /// # Returns
@@ -528,7 +522,6 @@ impl RidgeRegression {
         let y_pred = self.predict(x_test);
         r2_score(y_test, &y_pred)
     }
-
 }
 
 /// # Lasso Regression
@@ -546,7 +539,7 @@ pub struct LassoRegression {
 }
 
 impl LassoRegression {
-    /// Create a new LassoRegression object. 
+    /// Create a new LassoRegression object.
     /// # Parameters
     /// alpha: `f64` - The regularization parameter
     /// # Returns
@@ -608,11 +601,11 @@ impl LassoRegression {
 
             self.intercept -= lr * di / n_samples as f64;
             for i in 0..n_features {
-                self.weights[i] -= lr * (dw[i] / n_samples as f64 + self.alpha * self.weights[i].signum());
+                self.weights[i] -=
+                    lr * (dw[i] / n_samples as f64 + self.alpha * self.weights[i].signum());
             }
         }
     }
-
 
     /// Predict the target values from the test data.  
     /// # Parameters
@@ -660,7 +653,6 @@ impl LassoRegression {
         self.weights.clone()
     }
 
-
     /// Get the intercept of the model
     /// # Returns
     /// `f64` - The intercept of the model
@@ -674,7 +666,6 @@ impl LassoRegression {
     pub fn intercept(&self) -> f64 {
         self.intercept
     }
-
 
     /// Get the R<sup>2</sup> score of the model on the test data.
     /// # Parameters
@@ -693,8 +684,6 @@ impl LassoRegression {
         let y_pred = self.predict(x_test);
         r2_score(y_test, &y_pred)
     }
-    
-
 }
 
 #[cfg(test)]
@@ -739,7 +728,6 @@ mod tests {
         let coefficients = model.get_weights();
         let intercept = model.get_intercept();
     }
-
 
     #[test]
     fn test_lasso_regression() {

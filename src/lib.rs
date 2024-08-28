@@ -11,4 +11,5 @@ pub mod distributions;
 pub mod equations;
 pub mod linear;
 pub mod metrics;
+pub mod naive_bayes;
 pub mod numbers;
