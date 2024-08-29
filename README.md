@@ -1,6 +1,9 @@
 # rusty_math
 
-This is a Rust library for mathematical operations.
+This is a Rust library for mathematical, statistical and machine learning operations.
+
+## Version 0.5.0
+New version now supports Gaussian Naive Bayes and Logistic Regression models. See detailed documentation in 'naive_bayes' and 'linear' modules respectively.
 
 ## Features
 
@@ -18,6 +21,8 @@ This is a Rust library for mathematical operations.
 - Linear Regression
 - Logistic Regression
 - Lasso and Ridge Regression
+- Logistic Regression
+- Naive Bayes Classifier
 - R<pow>2</pow> score
 - Mean squared error
 - Accuracy
@@ -32,14 +37,14 @@ To use `rusty_math` in your project, add the following to your `Cargo.toml` file
 
 ```toml
 [dependencies]
-rusty_math = "0.4.0"
+rusty_math = "0.5.0"
 ```
 
 ## Modules
 
 1. numbers: Functions to find the GCD, LCM, factorial, to check for prime, to find all prime numbers less than n.
 2. calculus: Find the definite integral and slope of a function at a point.
-3. Linear: Fit and predict a several types regression function.
+3. Linear: Fit and predict a several types linear functions.
 4. Equations: Solve a system of linear equations and find a root of polynomials using Falsi Reguli and Newton-Raphson methods
 5. naive_bayes: Fit a Gaussian Naive Bayes classifier and predict classes.
 5. Metrics: Score machine learning models.  
@@ -60,6 +65,7 @@ fn main() {
 ## Contributing
 
 Contributions are welcome! If you find any bugs or have suggestions for improvements, please open an issue or submit a pull request.  
+  
 In case of any questions or feedback feel free to contact me at kjmakwana00@gmail.com  
 
 ## License
