@@ -74,10 +74,10 @@ pub fn r2_score(y_pred: &Vec<f64>, y_true: &Vec<f64>) -> f64 {
 /// Calculate the accuracy of a classification model. The accuracy is defined as the number of correct predictions divided by the total number of predictions.    
 /// Function calculates the overall accuracy and the accuracy for each class.
 /// # Parameters
-/// y_pred: &Vec<u8> - A reference to a vector containing the predicted target values  
-/// y_true: &Vec<u8> - A reference to a vector containing the true target values  
+/// y_pred: `&Vec<u8>` - A reference to a vector containing the predicted target values  
+/// y_true: `&Vec<u8>` - A reference to a vector containing the true target values  
 /// # Returns
-/// HashMap<String,f64> - A hashmap containing the overall accuracy and the accuracy for each class
+/// `HashMap<String,f64>` - A hashmap containing the overall accuracy and the accuracy for each class
 /// # Examples
 /// ```
 /// use rusty_math::metrics::accuracy;
@@ -117,10 +117,10 @@ pub fn accuracy(y_pred: &Vec<u8>, y_true: &Vec<u8>) -> HashMap<String, f64> {
 
 /// Calculate the confusion matrix of a classification model. The confusion matrix is a table that is often used to describe the performance of a classification model on a set of test data for which the true values are known.
 /// # Parameters
-/// y_pred: &Vec<u8> - A reference to a vector containing the predicted target values  
-/// y_true: &Vec<u8> - A reference to a vector containing the true target values  
+/// y_pred: `&Vec<u8>` - A reference to a vector containing the predicted target values  
+/// y_true: `&Vec<u8>` - A reference to a vector containing the true target values  
 /// # Returns
-/// Vec<Vec<u32>> - A 2D vector containing the confusion matrix
+/// `Vec<Vec<u32>>` - A 2D vector containing the confusion matrix
 /// # Examples
 /// ```
 /// use rusty_math::metrics::confusion_matrix;
@@ -146,11 +146,11 @@ pub fn confusion_matrix(y_pred: &Vec<u8>, y_true: &Vec<u8>) -> Vec<Vec<u32>> {
 /// Calculate the precision of a classification model. The precision is defined as the number of true positive predictions divided by the total number of positive predictions.
 /// Function calculates the overall precision and the precision for each class (in case of multiclass classification). The function supports two methods for calculating precision: "macro" and "micro".
 /// # Parameters
-/// y_pred: &Vec<u8> - A reference to a vector containing the predicted target values  
-/// y_true: &Vec<u8> - A reference to a vector containing the true target values  
-/// method: &str - The method to use for calculating precision. Options are "macro" and "micro"  
+/// y_pred: `&Vec<u8>` - A reference to a vector containing the predicted target values  
+/// y_true: `&Vec<u8>` - A reference to a vector containing the true target values  
+/// method: `&str` - The method to use for calculating precision. Options are "macro" and "micro"  
 /// # Returns
-/// HashMap<String,f64> - A hashmap containing the overall precision and the precision for each class  
+/// `HashMap<String,f64>` - A hashmap containing the overall precision and the precision for each class  
 /// # Examples
 /// ```
 /// use rusty_math::metrics::precision;
@@ -208,11 +208,11 @@ pub fn precision(y_pred: &Vec<u8>, y_true: &Vec<u8>, method: &str) -> HashMap<St
 /// Calculate the recall of a classification model. The recall is defined as the number of true positive predictions divided by the total number of actual positive values.
 /// Function calculates the overall recall and the recall for each class (in case of multiclass classification). The function supports two methods for calculating recall: "macro" and "micro".
 /// # Parameters
-/// y_pred: &Vec<u8> - A reference to a vector containing the predicted target values  
-/// y_true: &Vec<u8> - A reference to a vector containing the true target values  
-/// method: &str - The method to use for calculating recall. Options are "macro" and "micro"  
+/// y_pred: `&Vec<u8>` - A reference to a vector containing the predicted target values  
+/// y_true: `&Vec<u8>` - A reference to a vector containing the true target values  
+/// method: `&str` - The method to use for calculating recall. Options are "macro" and "micro"  
 /// # Returns
-/// HashMap<String,f64> - A hashmap containing the overall recall and the recall for each class
+/// `HashMap<String,f64>` - A hashmap containing the overall recall and the recall for each class
 /// # Examples
 /// ```
 /// use rusty_math::metrics::recall;
@@ -270,11 +270,11 @@ pub fn recall(y_pred: &Vec<u8>, y_true: &Vec<u8>, method: &str) -> HashMap<Strin
 /// Calculate the F1 score of a classification model. The F1 score is the harmonic mean of the precision and recall.
 /// Function calculates the overall F1 score and the F1 score for each class (in case of multiclass classification). The function supports two methods for calculating F1 score: "macro" and "micro".
 /// # Parameters
-/// y_pred: &Vec<u8> - A reference to a vector containing the predicted target values  
-/// y_true: &Vec<u8> - A reference to a vector containing the true target values  
-/// method: &str - The method to use for calculating F1 score. Options are "macro" and "micro"  
+/// y_pred: `&Vec<u8>` - A reference to a vector containing the predicted target values  
+/// y_true: `&Vec<u8>` - A reference to a vector containing the true target values  
+/// method: `&str` - The method to use for calculating F1 score. Options are "macro" and "micro"  
 /// # Returns
-/// HashMap<String,f64> - A hashmap containing the overall F1 score and the F1 score for each class  
+/// `HashMap<String,f64>` - A hashmap containing the overall F1 score and the F1 score for each class  
 /// # Examples
 /// ```
 /// use rusty_math::metrics::f1;

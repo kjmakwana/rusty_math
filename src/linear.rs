@@ -8,7 +8,9 @@
 //! let model = LinearRegression::new();
 //! ```
 
-use crate::metrics::r2_score;
+use std::collections::HashMap;
+
+use crate::metrics::{r2_score,accuracy};
 
 /// # Linear Regression
 /// Fits a linear regression model to the training data. The model is of the form y = b + a<sub>1</sub>x<sub>1</sub> + a<sub>2</sub>x<sub>2</sub> + ... + a<sub>n</sub>x<sub>n</sub>.  
@@ -686,6 +688,207 @@ impl LassoRegression {
     }
 }
 
+
+
+/// # Logistic Regression
+/// Fits a logistic regression model to the training data. The model is of the form y = 1 / (1 + e<sup>-(b + a<sub>1</sub>x<sub>1</sub> + a<sub>2</sub>x<sub>2</sub> + ... + a<sub>n</sub>x<sub>n</sub>)).
+/// The model is fit using gradient descent of likelihood. The model can be used to predict the target values for test data.
+/// # Examples
+/// ```
+/// use rusty_math::linear::LogisticRegression;
+/// let model = LogisticRegression::new();
+/// ```
+/// Fields:
+/// weights: `Vec<f64>` - The weights of the model
+/// intercept: `f64` - The intercept of the model
+pub struct LogisticRegression {
+    pub weights: Vec<f64>,
+    pub intercept: f64,
+}
+
+impl LogisticRegression{
+
+    /// Create a new LogisticRegression object
+    /// # Returns
+    /// `LogisticRegression` - A new LogisticRegression object
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::LogisticRegression;
+    /// let model = LogisticRegression::new();
+    /// ```
+    pub fn new() -> LogisticRegression{
+        LogisticRegression{
+            weights: Vec::new(),
+            intercept: 0.0,
+        }
+    }
+
+
+    fn sigmoid(x: f64) -> f64{
+        1.0 / (1.0 + (-x).exp())
+    }
+
+
+    /// Fit the Logistic Regression model. The model is fit using gradient descent of likelihood.
+    /// # Parameters
+    /// x_train: `&Vec<Vec<f64>>` - A reference to a vector of vectors containing the training data  
+    /// y_train: `&Vec<f64>` - A reference to a vector containing the target values  
+    /// lr: `f64` - The learning rate  
+    /// n_iter: `i32` - The number of iterations  
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::LogisticRegression;
+    /// let mut model = LogisticRegression::new();
+    /// let x_train = vec![vec![1.0, 2.0], vec![2.0, 3.0], vec![3.0, 4.0]];
+    /// let y_train = vec![0.0, 1.0, 0.0];
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// ```
+    /// # Panics
+    /// If the number of samples in the training data does not match the number of samples in the target values  
+    pub fn fit(&mut self, x_train: &Vec<Vec<f64>>, y_train: &Vec<f64>, lr: f64, n_iter: i32){
+        let n_samples = x_train.len();
+        let n_features = x_train[0].len();
+        self.weights = vec![1.0; n_features];
+        if n_samples != y_train.len() {
+            panic!("Number of samples in training data does not match the number of samples in target values");
+        }
+        for _ in 0..n_iter{
+            let mut y_pred = vec![0.0; n_samples];
+            for i in 0..n_samples{
+                for j in 0..n_features{
+                    y_pred[i] += self.weights[j] * x_train[i][j];
+                }
+                y_pred[i] += self.intercept;
+                y_pred[i] = LogisticRegression::sigmoid(y_pred[i]);
+            }
+
+            let mut dw = vec![0.0; n_features];
+            let mut di = 0.0;
+
+            for i in 0..n_samples{
+                for j in 0..n_features{
+                    dw[j] += (y_pred[i] - y_train[i]) * x_train[i][j];
+                }
+                di += y_pred[i] - y_train[i];
+            }
+
+            self.intercept -= lr * di / n_samples as f64;
+            for i in 0..n_features{
+                self.weights[i] -= lr * dw[i] / n_samples as f64;
+            }
+
+
+            
+        }
+
+    }
+
+    /// Predict the target probabilities for the test data.
+    /// # Parameters
+    /// x_test: `Vec<Vec<f64>` - A reference to a vector of vectors containing the test data
+    /// # Returns
+    /// `Vec<Vec<f64>` - A vector of vectors containing the predicted probabilities
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::LogisticRegression;
+    /// let mut model = LogisticRegression::new();
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let x_test = vec![vec![4.0, 5.0], vec![5.0, 6.0]];
+    /// let y_pred = model.predict_proba(&x_test);
+    /// ```
+    /// # Panics
+    /// If the number of features in the test data does not match the number of features in the training data
+    /// # Remarks
+    /// This function returns the probabilities of the positive class. The probability of the negative class is 1 - probability of the positive class.  
+    /// If you want to predict the target values, you can threshold the probabilities at 0.5.
+    pub fn predict_proba(&self, x_test: &Vec<Vec<f64>>) -> Vec<Vec<f64>>{
+        let n_samples = x_test.len();
+        let n_features = x_test[0].len();
+        if n_features != self.weights.len() {
+            panic!("Number of features in test data does not match the number of features in training data");
+        }
+        let mut y_pred = vec![vec![0.0; 2];n_samples];
+
+        for i in 0..n_samples {
+            for j in 0..n_features {
+                y_pred[i][1] += self.weights[j] * x_test[i][j];
+            }
+            y_pred[i][1] += self.intercept;
+            y_pred[i][1] = LogisticRegression::sigmoid(y_pred[i][1]);
+            y_pred[i][0] = 1.0 - y_pred[i][1];
+        }
+        y_pred
+    }
+
+
+    /// Predict the target values for the test data.
+    /// # Parameters
+    /// x_test: `Vec<Vec<f64>` - A reference to a vector of vectors containing the test data
+    /// # Returns
+    /// `Vec<i32>` - A vector containing the predicted target values
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::LogisticRegression;
+    /// let mut model = LogisticRegression::new();
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let x_test = vec![vec![4.0, 5.0], vec![5.0, 6.0]];
+    /// let y_pred = model.predict(&x_test);
+    /// ```
+    /// # Panics
+    /// If the number of features in the test data does not match the number of features in the training data
+    /// # Remarks
+    /// This function uses the predict_proba function to predict the target values. If the probability of the positive class is greater than 0.5, the target value is 1, otherwise it is 0.
+    /// This function is equivalent to calling predict_proba and then thresholding the probabilities at 0.5.
+    pub fn predict(&self, x_test: &Vec<Vec<f64>>) -> Vec<i32>{
+        let probs = self.predict_proba(x_test);
+        let mut y_pred = vec![0; probs.len()];
+        for i in 0..probs.len(){
+            if probs[i][1] > probs[i][0]{
+                y_pred[i] = 1;
+            }
+        }
+        y_pred
+    }
+
+    /// Get the weights of the model
+    /// # Returns
+    /// `Vec<f64>` - A vector containing the weights of the model
+    pub fn get_weights(&self) -> Vec<f64>{
+        self.weights.clone()
+    }
+
+
+    /// Get the intercept of the model
+    /// # Returns
+    /// `f64` - The intercept of the model
+    pub fn get_intercept(&self) -> f64{
+        self.intercept
+    }
+
+    /// Get the accuracy of the model on the test data
+    /// # Parameters
+    /// x_test: `&Vec<Vec<f64>>` - A reference to a vector of vectors containing the test data  
+    /// y_test: `&Vec<f64>` - A reference to a vector containing the target values  
+    /// # Returns
+    /// `HashMap<String,f64>` - A hashmap containing the accuracy of the model. See the accuracy function in metrics for more details
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::LogisticRegression;
+    /// let mut model = LogisticRegression::new();
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let score = model.score(&x_test, &y_test);
+    /// ```
+    pub fn score(&self, x_test: &Vec<Vec<f64>>, y_test: &Vec<f64>) -> HashMap<String,f64>{
+        let y_pred = self.predict(x_test);
+        let y_test = y_test.iter().map(|&x| x as u8).collect();
+        let y_pred = y_pred.iter().map(|&x| x as u8).collect();
+        accuracy(&y_pred, &y_test)
+    }
+
+}
+
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -740,5 +943,25 @@ mod tests {
         let score = model.score(&x_test, &vec![6.0, 7.0]);
         let coefficients = model.weights();
         let intercept = model.intercept();
+    }
+
+    #[test]
+    fn test_logistic_regression(){
+        let x_train = vec![
+            vec![1.0, 2.0],
+            vec![2.0, 3.0],
+            vec![3.0, 4.0],
+            vec![4.0, 5.0],
+            vec![5.0, 6.0],
+            vec![6.0, 7.0],
+        ];
+        let y_train = vec![0.0, 0.0, 0.0, 1.0, 1.0, 1.0];
+        let x_test = vec![vec![-1.0, 0.0], vec![4.0, 5.0], vec![7.0, 7.0], vec![1.0, 9.0]];
+        let mut model = LogisticRegression::new();
+        model.fit(&x_train, &y_train, 0.01, 1000);
+        let preds = model.predict(&x_test);
+        let score = model.score(&x_test, &vec![0.0, 1.0,1.0,0.0]);
+        let weights = model.get_weights();
+        let intercept = model.get_intercept();
     }
 }

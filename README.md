@@ -16,6 +16,8 @@ This is a Rust library for mathematical operations.
 - Solve a linear equation
 - Find roots of a polynomial using Falsi Reguli and Newton-Raphson methods
 - Linear Regression
+- Logistic Regression
+- Lasso and Ridge Regression
 - R<pow>2</pow> score
 - Mean squared error
 - Accuracy
@@ -39,6 +41,7 @@ rusty_math = "0.4.0"
 2. calculus: Find the definite integral and slope of a function at a point.
 3. Linear: Fit and predict a several types regression function.
 4. Equations: Solve a system of linear equations and find a root of polynomials using Falsi Reguli and Newton-Raphson methods
+5. naive_bayes: Fit a Gaussian Naive Bayes classifier and predict classes.
 5. Metrics: Score machine learning models.  
   
 See detailed documation for list of functionalities in each module.  

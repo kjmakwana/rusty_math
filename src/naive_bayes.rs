@@ -5,6 +5,7 @@
 //! The Naive Bayes classifier implemented here is a Gaussian Naive Bayes classifier, which assumes that the likelihood of the features is Gaussian.
 //! The classifier is implemented in the NaiveBayesClassifier struct.
 use std::collections::{HashMap, HashSet};
+use crate::metrics::accuracy;
 
 /// Naive Bayes Classifier
 /// This struct implements a Gaussian Naive Bayes classifier. The model is trained using the fit method and predictions can be made using the predict method.
@@ -209,6 +210,28 @@ impl NaiveBayesClassifier {
             .map(|class_probs| class_probs.iter().map(|x| x.ln()).collect::<Vec<f64>>())
             .collect::<Vec<Vec<f64>>>()
     }
+
+
+    /// Score the model using the provided test data. The score is calculated as the accuracy of the model on the test data.
+    /// See the accuracy function in the metrics module for more details.
+    /// # Parameters
+    /// x_test: `Vec<Vec<f64>>` - The test input samples. A 2D vector of shape (n_samples, n_features)
+    /// y_test: `Vec<i32>` - The target classes. A 1D vector of length n_samples
+    /// # Returns
+    /// `HashMap<String, f64>` - A hashmap containing the accuracy of the model
+    /// # Example
+    /// ```
+    /// use rusty_math::naive_bayes::NaiveBayesClassifier;
+    /// let mut model = NaiveBayesClassifier::new();
+    /// model.fit(&x_train, &y_train);
+    /// let score = model.score(&x_test, &y_test);
+    /// ```
+    pub fn score(&self, x_test: &Vec<Vec<f64>>, y_test: &Vec<i32>) -> HashMap<String, f64> {
+        let preds = self.predict(&x_test).iter().map(|&y| y as u8).collect::<Vec<u8>>();
+        let y_test_u8= y_test.iter().map(|&y| y as u8).collect();
+        accuracy(&preds, &y_test_u8)
+    }
+
 }
 
 #[cfg(test)]
