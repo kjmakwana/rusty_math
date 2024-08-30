@@ -16,6 +16,9 @@ use crate::metrics::{r2_score,accuracy};
 /// # Linear Regression
 /// Fits a linear regression model to the training data. The model is of the form y = b + a<sub>1</sub>x<sub>1</sub> + a<sub>2</sub>x<sub>2</sub> + ... + a<sub>n</sub>x<sub>n</sub>.  
 /// The model is fit using gradient descent. The model can be used to predict the target values for test data.
+/// Fields
+/// - `weights`: `Vec<f64>` -  The weights of the model
+/// - `intercept`: `f64` -  The intercept of the model
 pub struct LinearRegression {
     pub weights: Vec<f64>,
     pub intercept: f64,
@@ -24,7 +27,7 @@ pub struct LinearRegression {
 impl LinearRegression {
     /// Create a new LinearRegression object
     /// # Returns
-    /// `LinearRegression` - A new LinearRegression object
+    /// - `LinearRegression` -  A new LinearRegression object
     /// # Examples
     /// ```
     /// use rusty_math::linear::LinearRegression;
@@ -39,10 +42,10 @@ impl LinearRegression {
 
     /// Fit the Linear Regression model
     /// # Parameters
-    /// x_train: `&Vec<Vec<f64>>` - A reference to a vector of vectors containing the training data  
-    /// y_train: `&Vec<f64>` - A reference to a vector containing the target values  
-    /// lr: `f64` - The learning rate  
-    /// n_iter: `i32` - The number of iterations  
+    /// - `x_train`: `&Vec<Vec<f64>>` -  A reference to a vector of vectors containing the training data  
+    /// - `y_train`: `&Vec<f64>` -  A reference to a vector containing the target values  
+    /// - `lr`: `f64` -  The learning rate  
+    /// - `n_iter`: `i32` -  The number of iterations  
     /// # Examples
     /// ```
     /// use rusty_math::linear::LinearRegression;
@@ -89,9 +92,9 @@ impl LinearRegression {
 
     /// Predict the target values
     /// # Parameters
-    /// x_test:`&Vec<Vec<f64>` - A reference to a vector of vectors containing the test data  
+    /// - `x_test`:`&Vec<Vec<f64>` -  A reference to a vector of vectors containing the test data  
     /// # Returns
-    /// `Vec<f64>` - A vector containing the predicted target values
+    /// - `Vec<f64>` -  A vector containing the predicted target values
     /// # Examples
     /// ```
     /// use rusty_math::linear::LinearRegression;
@@ -123,7 +126,7 @@ impl LinearRegression {
 
     /// Get the weights of the model
     /// # Returns
-    /// `Vec<f64>` - A vector containing the weights of the model
+    /// - `Vec<f64>` -  A vector containing the weights of the model
     /// # Examples
     /// ```
     /// use rusty_math::linear::LinearRegression;
@@ -139,7 +142,7 @@ impl LinearRegression {
 
     /// Get the intercept of the model
     /// # Returns
-    /// `f64` - The intercept of the model
+    /// - `f64` -  The intercept of the model
     /// # Examples
     /// ```
     /// use rusty_math::linear::LinearRegression;
@@ -155,10 +158,10 @@ impl LinearRegression {
 
     /// Get the R<sup>2</sup> score of the model on the test data
     /// # Parameters
-    /// x_test: `&Vec<Vec<f64>>` - A reference to a vector of vectors containing the test data
-    /// y_test: `&Vec<f64>` - A reference to a vector containing the target values
+    /// - x_test: `&Vec<Vec<f64>>` -  A reference to a vector of vectors containing the test data
+    /// - y_test: `&Vec<f64>` -  A reference to a vector containing the target values
     /// # Returns
-    /// `f64` - The R<sup>2</sup> score of the model on the test data
+    /// - `f64` -  The R<sup>2</sup> score of the model on the test data
     /// # Examples
     /// ```
     /// use rusty_math::linear::LinearRegression;
@@ -169,6 +172,19 @@ impl LinearRegression {
     pub fn score(&self, x_test: &Vec<Vec<f64>>, y_test: &Vec<f64>) -> f64 {
         let y_pred = self.predict(x_test);
         r2_score(y_test, &y_pred)
+    }
+
+    /// Get the parameters of the model. The parameters are the weights and the intercept. See the field descriptions for more information. 
+    /// The weights are stored in the HashMap with the key "weight_i" where i is the index of the weight.
+    /// # Returns
+    /// - `HashMap<String, String>` -  A HashMap containing the parameters of the model
+    pub fn get_params(&self) -> HashMap<String, String> {
+        let mut params = HashMap::new();
+        params.insert("intercept".to_string(), self.intercept.to_string());
+        for i in 0..self.weights.len() {
+            params.insert(format!("weight_{}", i), self.weights[i].to_string());
+        }
+        params
     }
 }
 
@@ -181,6 +197,10 @@ impl LinearRegression {
 /// use rusty_math::linear::PolynomialRegression;
 /// let model = PolynomialRegression::new(2); // set the degree of the polynomial to 2
 /// ```
+/// Fields
+/// - `weights`: `Vec<f64>` -  The weights of the model
+/// - `intercept`: `f64` -  The intercept of the model
+/// - `degree`: `usize` -  The degree of the polynomial
 pub struct PolynomialRegression {
     pub weights: Vec<f64>,
     pub intercept: f64,
@@ -190,9 +210,9 @@ pub struct PolynomialRegression {
 impl PolynomialRegression {
     /// Create a new PolynomialRegression object
     /// # Parameters
-    /// degree: `usize` - The degree of the polynomial
+    /// - `degree`: `usize` -  The degree of the polynomial
     /// # Returns
-    /// `PolynomialRegression` - A new PolynomialRegression object
+    /// - `PolynomialRegression` -  A new PolynomialRegression object
     pub fn new(degree: usize) -> PolynomialRegression {
         PolynomialRegression {
             weights: Vec::new(),
@@ -205,9 +225,9 @@ impl PolynomialRegression {
     /// ## Warning
     /// Do not pass the expanded features to the fit method. The fit method will automatically expand the features.
     /// # Parameters
-    /// x: `&Vec<Vec<f64>` - A reference to a vector of vectors containing the training data  
+    /// - `x`: `&Vec<Vec<f64>` -  A reference to a vector of vectors containing the training data  
     /// # Returns
-    /// `Vec<Vec<f64>` - A vector of vectors containing the expanded features  
+    /// - `Vec<Vec<f64>` -  A vector of vectors containing the expanded features  
     /// # Examples
     /// ```
     /// use rusty_math::linear::PolynomialRegression;
@@ -241,10 +261,10 @@ impl PolynomialRegression {
 
     /// Fit the Polynomial Regression model. The model is fit using gradient descent.  
     /// # Parameters
-    /// x_train: `&Vec<Vec<f64>>` - A reference to a vector of vectors containing the training data  
-    /// y_train: `&Vec<f64>` - A reference to a vector containing the target values  
-    /// lr: `f64 - The learning rate  
-    /// n_iter: `i32` - The number of iterations
+    /// - `x_train`: `&Vec<Vec<f64>>` -  A reference to a vector of vectors containing the training data  
+    /// - `y_train`: `&Vec<f64>` -  A reference to a vector containing the target values  
+    /// - `lr`: `f64 -  The learning rate  
+    /// - `n_iter`: `i32` -  The number of iterations
     /// # Examples
     /// ```
     /// use rusty_math::linear::PolynomialRegression;
@@ -287,9 +307,9 @@ impl PolynomialRegression {
 
     /// Predict the target values.
     /// # Parameters
-    /// x_test: `Vec<Vec<f64>` - A reference to a vector of vectors containing the test data
+    /// - `x_test`: `Vec<Vec<f64>` -  A reference to a vector of vectors containing the test data
     /// # Returns
-    /// `Vec<f64>` - A vector containing the predicted target values
+    /// - `Vec<f64>` -  A vector containing the predicted target values
     /// # Examples
     /// ```
     /// use rusty_math::linear::PolynomialRegression;
@@ -320,7 +340,7 @@ impl PolynomialRegression {
 
     /// Get the weights of the model
     /// # Returns
-    /// `Vec<f64>` - A vector containing the weights of the model
+    /// - `Vec<f64>` -  A vector containing the weights of the model
     /// # Examples
     /// ```
     /// use rusty_math::linear::PolynomialRegression;
@@ -334,7 +354,7 @@ impl PolynomialRegression {
 
     /// Get the intercept of the model
     /// # Returns
-    /// `f64` - The intercept of the model
+    /// - `f64` -  The intercept of the model
     /// # Examples
     /// ```
     /// use rusty_math::linear::PolynomialRegression;
@@ -348,10 +368,10 @@ impl PolynomialRegression {
 
     /// Get the R<sup>2</sup> score of the model on the test data
     /// # Parameters
-    /// x_test: `&Vec<Vec<f64>>` - A reference to a vector of vectors containing the test data
-    /// y_test: `&Vec<f64>` - A reference to a vector containing the target values
+    /// - `x_test`: `&Vec<Vec<f64>>` -  A reference to a vector of vectors containing the test data
+    /// - `y_test`: `&Vec<f64>` -  A reference to a vector containing the target values
     /// # Returns
-    /// `f64` - The R<sup>2</sup> score of the model on the test data
+    /// - `f64` -  The R<sup>2</sup> score of the model on the test data
     /// # Examples
     /// ```
     /// use rusty_math::linear::PolynomialRegression;
@@ -373,6 +393,10 @@ impl PolynomialRegression {
 /// use rusty_math::linear::RidgeRegression;
 /// let model = RidgeRegression::new(0.01);
 /// ```
+/// Fields
+/// - `weights`: `Vec<f64>` -  The weights of the model
+/// - `intercept`: `f64` -  The intercept of the model
+/// - `alpha`: `f64` -  The regularization parameter
 pub struct RidgeRegression {
     pub weights: Vec<f64>,
     pub intercept: f64,
@@ -382,9 +406,9 @@ pub struct RidgeRegression {
 impl RidgeRegression {
     /// Create a new RidgeRegression object
     /// # Parameters
-    /// alpha: `f64` - The regularization parameter
+    /// - `alpha`: `f64` -  The regularization parameter
     /// # Returns
-    /// `RidgeRegression` - A new RidgeRegression object
+    /// - `RidgeRegression` -  A new RidgeRegression object
     /// # Examples
     /// ```
     /// use rusty_math::linear::RidgeRegression;
@@ -400,10 +424,10 @@ impl RidgeRegression {
 
     /// Fit the Ridge Regression model. The model is fit using gradient descent with L2 regularization.
     /// # Parameters
-    /// x_train: `&Vec<Vec<f64>>` - A reference to a vector of vectors containing the training data  
-    /// y_train: `&Vec<f64>` - A reference to a vector containing the target values  
-    /// lr: `f64` - The learning rate  
-    /// n_iter: `i32` - The number of iterations  
+    /// - `x_train`: `&Vec<Vec<f64>>` -  A reference to a vector of vectors containing the training data  
+    /// - `y_train`: `&Vec<f64>` -  A reference to a vector containing the target values  
+    /// - `lr`: `f64` -  The learning rate  
+    /// - `n_iter`: `i32` -  The number of iterations  
     /// # Examples
     /// ```
     /// use rusty_math::linear::RidgeRegression;
@@ -450,9 +474,9 @@ impl RidgeRegression {
 
     /// Predict the target values.
     /// # Parameters
-    /// x_test: `Vec<Vec<f64>` - A reference to a vector of vectors containing the test data  
+    /// - `x_test`: `Vec<Vec<f64>` -  A reference to a vector of vectors containing the test data  
     /// # Returns
-    /// `Vec<f64>` - A vector containing the predicted target values  
+    /// - `Vec<f64>` -  A vector containing the predicted target values  
     /// # Examples
     /// ```
     /// use rusty_math::linear::RidgeRegression;
@@ -482,7 +506,7 @@ impl RidgeRegression {
 
     /// Get the weights of the model
     /// # Returns
-    /// `Vec<f64>` - A vector containing the weights of the model  
+    /// - `Vec<f64>` -  A vector containing the weights of the model  
     /// # Examples
     /// ```
     /// use rusty_math::linear::RidgeRegression;
@@ -496,7 +520,7 @@ impl RidgeRegression {
 
     /// Get the intercept of the model
     /// # Returns
-    /// `f64` - The intercept of the model
+    /// - `f64` -  The intercept of the model
     /// # Examples
     /// ```
     /// use rusty_math::linear::RidgeRegression;
@@ -510,10 +534,10 @@ impl RidgeRegression {
 
     /// Get the R<sup>2</sup> score of the model on the test data
     /// # Parameters
-    /// x_test: `&Vec<Vec<f64>>` - A reference to a vector of vectors containing the test data  
-    /// y_test: `&Vec<f64>` - A reference to a vector containing the target values
+    /// - `x_test`: `&Vec<Vec<f64>>` -  A reference to a vector of vectors containing the test data  
+    /// - `y_test`: `&Vec<f64>` -  A reference to a vector containing the target values
     /// # Returns
-    /// `f64` - The R<sup>2</sup> score of the model on the test data
+    /// - `f64` -  The R<sup>2</sup> score of the model on the test data
     /// # Examples
     /// ```
     /// use rusty_math::linear::RidgeRegression;
@@ -525,6 +549,27 @@ impl RidgeRegression {
         let y_pred = self.predict(x_test);
         r2_score(y_test, &y_pred)
     }
+
+    /// Get the parameters of the model. The parameters are the weights, intercept and alpha. See the field descriptions for more information.
+    /// The weights are stored in the HashMap with the key "weight_i" where i is the index of the weight.
+    /// # Returns
+    /// - `HashMap<String, String>` -  A HashMap containing the parameters of the model
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::RidgeRegression;
+    /// let mut model = RidgeRegression::new(0.01);
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let params = model.get_params();
+    /// ```
+    pub fn get_params(&self) -> HashMap<String, String> {
+        let mut params = HashMap::new();
+        params.insert("intercept".to_string(), self.intercept.to_string());
+        for i in 0..self.weights.len() {
+            params.insert(format!("weight_{}", i), self.weights[i].to_string());
+        }
+        params.insert("alpha".to_string(), self.alpha.to_string());
+        params
+    }
 }
 
 /// # Lasso Regression
@@ -535,6 +580,10 @@ impl RidgeRegression {
 /// use rusty_math::linear::LassoRegression;
 /// let model = LassoRegression::new(0.01);
 /// ```
+/// Fields
+/// - `weights`: `Vec<f64>` -  The weights of the model
+/// - `intercept`: `f64` -  The intercept of the model
+/// - `alpha`: `f64` -  The regularization parameter
 pub struct LassoRegression {
     pub weights: Vec<f64>,
     pub intercept: f64,
@@ -544,9 +593,9 @@ pub struct LassoRegression {
 impl LassoRegression {
     /// Create a new LassoRegression object.
     /// # Parameters
-    /// alpha: `f64` - The regularization parameter
+    /// - `alpha`: `f64` -  The regularization parameter
     /// # Returns
-    /// `LassoRegression` - A new LassoRegression object
+    /// - `LassoRegression` -  A new LassoRegression object
     /// # Examples
     /// ```
     /// use rusty_math::linear::LassoRegression;
@@ -562,10 +611,10 @@ impl LassoRegression {
 
     /// Fit the Lasso Regression model. The model is fit using gradient descent with L1 regularization.
     /// # Parameters
-    /// x_train: `&Vec<Vec<f64>>` - A reference to a vector of vectors containing the training data  
-    /// y_train: `&Vec<f64>` - A reference to a vector containing the target values  
-    /// lr: `f64` - The learning rate  
-    /// n_iter: `i32` - The number of iterations  
+    /// - `x_train`: `&Vec<Vec<f64>>` -  A reference to a vector of vectors containing the training data  
+    /// - `y_train`: `&Vec<f64>` -  A reference to a vector containing the target values  
+    /// - `lr`: `f64` -  The learning rate  
+    /// - `n_iter`: `i32` -  The number of iterations  
     /// # Examples
     /// ```
     /// use rusty_math::linear::LassoRegression;
@@ -612,9 +661,9 @@ impl LassoRegression {
 
     /// Predict the target values from the test data.  
     /// # Parameters
-    /// x_test: `Vec<Vec<f64>` - A reference to a vector of vectors containing the test data
+    /// - `x_test`: `Vec<Vec<f64>` -  A reference to a vector of vectors containing the test data
     /// # Returns
-    /// `Vec<f64>` - A vector containing the predicted target values
+    /// - `Vec<f64>` -  A vector containing the predicted target values
     /// # Examples
     /// ```
     /// use rusty_math::linear::LassoRegression;
@@ -644,7 +693,7 @@ impl LassoRegression {
 
     /// Get the weights of the model
     /// # Returns
-    /// `Vec<f64>` - A vector containing the weights of the model
+    /// - `Vec<f64>` -  A vector containing the weights of the model
     /// # Examples
     /// ```
     /// use rusty_math::linear::LassoRegression;
@@ -658,7 +707,7 @@ impl LassoRegression {
 
     /// Get the intercept of the model
     /// # Returns
-    /// `f64` - The intercept of the model
+    /// - `f64` -  The intercept of the model
     /// # Examples
     /// ```
     /// use rusty_math::linear::LassoRegression;
@@ -672,10 +721,10 @@ impl LassoRegression {
 
     /// Get the R<sup>2</sup> score of the model on the test data.
     /// # Parameters
-    /// x_test: `&Vec<Vec<f64>>` - A reference to a vector of vectors containing the test data  
-    /// y_test: `&Vec<f64>` - A reference to a vector containing the target values      
+    /// - `x_test`: `&Vec<Vec<f64>>` -  A reference to a vector of vectors containing the test data  
+    /// - `y_test`: `&Vec<f64>` -  A reference to a vector containing the target values      
     /// # Returns  
-    /// `f64` - The R<sup>2</sup> score of the model on the test data
+    /// - `f64` -  The R<sup>2</sup> score of the model on the test data
     /// # Examples
     /// ```
     /// use rusty_math::linear::LassoRegression;
@@ -687,6 +736,28 @@ impl LassoRegression {
         let y_pred = self.predict(x_test);
         r2_score(y_test, &y_pred)
     }
+
+    /// Get the parameters of the model. The parameters are the weights, intercept and alpha. See the field descriptions for more information.
+    /// The weights are stored in the HashMap with the key "weight_i" where i is the index of the weight.
+    /// # Returns
+    /// - `HashMap<String, String>` -  A HashMap containing the parameters of the model
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::RidgeRegression;
+    /// let mut model = RidgeRegression::new(0.01);
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let params = model.get_params();
+    /// ```
+    pub fn get_params(&self) -> HashMap<String, String> {
+        let mut params = HashMap::new();
+        params.insert("intercept".to_string(), self.intercept.to_string());
+        for i in 0..self.weights.len() {
+            params.insert(format!("weight_{}", i), self.weights[i].to_string());
+        }
+        params.insert("alpha".to_string(), self.alpha.to_string());
+        params
+    }
+
 }
 
 
@@ -884,6 +955,26 @@ impl LogisticRegression{
         let y_test = y_test.iter().map(|&x| x as i32).collect();
         let y_pred = y_pred.iter().map(|&x| x as i32).collect();
         accuracy(&y_pred, &y_test)
+    }
+
+    /// Get the parameters of the model. The parameters are the weights and intercept. See the field descriptions for more information.
+    /// The weights are stored in the HashMap with the key "weight_i" where i is the index of the weight.
+    /// # Returns
+    /// - `HashMap<String, String>` -  A HashMap containing the parameters of the model
+    /// # Examples
+    /// ```
+    /// use rusty_math::linear::RidgeRegression;
+    /// let mut model = RidgeRegression::new(0.01);
+    /// model.fit(&x_train, &y_train, 0.01, 1000);
+    /// let params = model.get_params();
+    /// ```
+    pub fn get_params(&self) -> HashMap<String, String> {
+        let mut params = HashMap::new();
+        params.insert("intercept".to_string(), self.intercept.to_string());
+        for i in 0..self.weights.len() {
+            params.insert(format!("weight_{}", i), self.weights[i].to_string());
+        }
+        params
     }
 
 }

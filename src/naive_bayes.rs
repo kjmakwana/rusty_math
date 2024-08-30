@@ -231,6 +231,28 @@ impl NaiveBayesClassifier {
         accuracy(&preds, &y_test)
     }
 
+
+    /// Get the parameters of the model as a hashmap. See the fields section for details on the parameters.
+    /// # Returns
+    /// `HashMap<String, String>` - A hashmap containing the parameters of the model
+    /// # Example
+    /// ```
+    /// use rusty_math::naive_bayes::NaiveBayesClassifier;
+    /// let mut model = NaiveBayesClassifier::new();
+    /// model.fit(&x_train, &y_train);
+    /// let params = model.get_params();
+    /// ```
+    pub fn get_params(&self) -> HashMap<String, String> {
+        let params = [
+            ("priors".to_string(), format!("{:?}", self.priors)),
+            ("feature_means".to_string(), format!("{:?}", self.feature_means)),
+            ("feature_vars".to_string(), format!("{:?}", self.feature_vars)),
+            ("class_counts".to_string(), format!("{:?}", self.class_counts)),
+            ("n_features".to_string(), format!("{:?}", self.n_features)),
+        ];
+        params.iter().cloned().collect()
+    }
+
 }
 
 #[cfg(test)]
