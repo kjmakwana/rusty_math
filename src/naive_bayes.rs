@@ -227,9 +227,8 @@ impl NaiveBayesClassifier {
     /// let score = model.score(&x_test, &y_test);
     /// ```
     pub fn score(&self, x_test: &Vec<Vec<f64>>, y_test: &Vec<i32>) -> HashMap<String, f64> {
-        let preds = self.predict(&x_test).iter().map(|&y| y as u8).collect::<Vec<u8>>();
-        let y_test_u8= y_test.iter().map(|&y| y as u8).collect();
-        accuracy(&preds, &y_test_u8)
+        let preds = self.predict(&x_test);
+        accuracy(&preds, &y_test)
     }
 
 }

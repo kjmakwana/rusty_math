@@ -74,8 +74,8 @@ pub fn r2_score(y_pred: &Vec<f64>, y_true: &Vec<f64>) -> f64 {
 /// Calculate the accuracy of a classification model. The accuracy is defined as the number of correct predictions divided by the total number of predictions.    
 /// Function calculates the overall accuracy and the accuracy for each class.
 /// # Parameters
-/// y_pred: `&Vec<u8>` - A reference to a vector containing the predicted target values  
-/// y_true: `&Vec<u8>` - A reference to a vector containing the true target values  
+/// y_pred: `&Vec<i32>` - A reference to a vector containing the predicted target values  
+/// y_true: `&Vec<i32>` - A reference to a vector containing the true target values  
 /// # Returns
 /// `HashMap<String,f64>` - A hashmap containing the overall accuracy and the accuracy for each class
 /// # Examples
@@ -87,7 +87,7 @@ pub fn r2_score(y_pred: &Vec<f64>, y_true: &Vec<f64>) -> f64 {
 /// ```
 /// # Panics
 /// If the number of samples in the predicted values does not match the number of samples in the true values
-pub fn accuracy(y_pred: &Vec<u8>, y_true: &Vec<u8>) -> HashMap<String, f64> {
+pub fn accuracy(y_pred: &Vec<i32>, y_true: &Vec<i32>) -> HashMap<String, f64> {
     if y_pred.len() != y_true.len() {
         panic!("Number of samples in predicted values does not match the number of samples in true values");
     }

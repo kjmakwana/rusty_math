@@ -2,6 +2,7 @@
 //! The `linear` module structs for fitting linear models.   
 //! You can fit a linear regression or polynomial model in Rust to the training data and use the model to predict the target values for test data.
 //! You can also fit a ridge or lasso regression model to the training data and use the model to predict the target values for test data.
+//! Logistic regression is also supported. You can fit a logistic regression model to the training data and use the model to predict the target values and their probabilities for test data.
 //! # Examples
 //! ```
 //! use rusty_math::linear::LinearRegression;
@@ -880,8 +881,8 @@ impl LogisticRegression{
     /// ```
     pub fn score(&self, x_test: &Vec<Vec<f64>>, y_test: &Vec<f64>) -> HashMap<String,f64>{
         let y_pred = self.predict(x_test);
-        let y_test = y_test.iter().map(|&x| x as u8).collect();
-        let y_pred = y_pred.iter().map(|&x| x as u8).collect();
+        let y_test = y_test.iter().map(|&x| x as i32).collect();
+        let y_pred = y_pred.iter().map(|&x| x as i32).collect();
         accuracy(&y_pred, &y_test)
     }
 

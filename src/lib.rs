@@ -13,3 +13,4 @@ pub mod linear;
 pub mod metrics;
 pub mod naive_bayes;
 pub mod numbers;
+pub mod knn;
