@@ -2,8 +2,8 @@
 
 This is a Rust library for mathematical, statistical and machine learning operations.
 
-## Version 0.5.0
-New version now supports Gaussian Naive Bayes and Logistic Regression models. See detailed documentation in 'naive_bayes' and 'linear' modules respectively.
+## Version 0.6.0
+New version now supports K-Nearest Neighbors classification and regression models. I have also added a get_params function to every model. See detailed documentation in respective modules.
 
 ## Features
 
@@ -23,6 +23,7 @@ New version now supports Gaussian Naive Bayes and Logistic Regression models. Se
 - Lasso and Ridge Regression
 - Logistic Regression
 - Naive Bayes Classifier
+- K-Nearest Neighbors
 - R<pow>2</pow> score
 - Mean squared error
 - Accuracy
@@ -37,7 +38,7 @@ To use `rusty_math` in your project, add the following to your `Cargo.toml` file
 
 ```toml
 [dependencies]
-rusty_math = "0.5.0"
+rusty_math = "0.6.0"
 ```
 
 ## Modules
@@ -47,7 +48,8 @@ rusty_math = "0.5.0"
 3. Linear: Fit and predict a several types linear functions.
 4. Equations: Solve a system of linear equations and find a root of polynomials using Falsi Reguli and Newton-Raphson methods
 5. naive_bayes: Fit a Gaussian Naive Bayes classifier and predict classes.
-5. Metrics: Score machine learning models.  
+6. knn: Fit and predict target values using K-nearest neighbors classification and regression models.
+7. Metrics: Score machine learning models.  
   
 See detailed documation for list of functionalities in each module.  
 
