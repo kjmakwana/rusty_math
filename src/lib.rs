@@ -14,3 +14,4 @@ pub mod metrics;
 pub mod naive_bayes;
 pub mod numbers;
 pub mod knn;
+pub mod clustering;

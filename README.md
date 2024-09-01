@@ -2,8 +2,8 @@
 
 This is a Rust library for mathematical, statistical and machine learning operations.
 
-## Version 0.6.0
-New version now supports K-Nearest Neighbors classification and regression models. I have also added a get_params function to every model. See detailed documentation in respective modules.
+## Version 0.7.0
+New version now supports K-Means clustering. See clustering module for more details.
 
 ## Features
 
@@ -24,6 +24,7 @@ New version now supports K-Nearest Neighbors classification and regression model
 - Logistic Regression
 - Naive Bayes Classifier
 - K-Nearest Neighbors
+- K-Means Clustering
 - R<pow>2</pow> score
 - Mean squared error
 - Accuracy
@@ -49,7 +50,8 @@ rusty_math = "0.6.0"
 4. Equations: Solve a system of linear equations and find a root of polynomials using Falsi Reguli and Newton-Raphson methods
 5. naive_bayes: Fit a Gaussian Naive Bayes classifier and predict classes.
 6. knn: Fit and predict target values using K-nearest neighbors classification and regression models.
-7. Metrics: Score machine learning models.  
+7. clustering: Clustering Algorithms like KMeans.
+8. Metrics: Score machine learning models.  
   
 See detailed documation for list of functionalities in each module.  
 
