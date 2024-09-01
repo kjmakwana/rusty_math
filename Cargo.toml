@@ -1,6 +1,6 @@
 [package]
 name = "rusty_math"
-version = "0.6.0"
+version = "0.7.0"
 edition = "2021"
 author = "Kshitij Makwana"
 description = "This is a Rust library for mathematical, statistical and machine learning operations."
